@@ -10,8 +10,8 @@ ob_start();
 	$user_data = check_login($conn);
 
 	// if the user is a patient (has role=patient) then this page should have a link to the registration form
-	if($user_data['role']='patient')
+	if($user_data['role']==='patient')
 		header("Location: patienthomepage.php");
-	elseif($user_data['role']='doctor')
+	elseif($user_data['role']==='doctor')
 		header("Location: doctorhomepage.php");
 ?>
