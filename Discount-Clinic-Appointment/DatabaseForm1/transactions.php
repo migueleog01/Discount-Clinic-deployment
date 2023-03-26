@@ -6,6 +6,25 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: center;
+			padding: 8px;
+			border: 1px solid #ddd;
+		}
+
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+        h1 {
+            font-size: 50px;
+        }
+	</style>
 	<h1>Medical Clinic Transactions</h1>
 	<form>
 		<fieldset>
@@ -55,5 +74,42 @@
 		<input type="submit" value="Submit">
 		<input type="reset" value="Reset">
 	</form>
+	    <br>
+    <h2> Previous Transactions </h2>
+    <table>
+		<thead>
+			<tr>
+				<th>Transaction Date</th>
+				<th>Total Balance</th>
+				<th>Amount Paid</th>
+				<th>New Balance</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>March 28, 2023</td>
+				<td>$400</td>
+				<td>$200</td>
+				<td>$200</td>
+			</tr>
+			<tr>
+				<td>March 28, 2023</td>
+				<td>$800</td>
+				<td>$400</td>
+				<td>$400</td>
+			</tr>
+			<tr>
+				<td>March 29, 2023</td>
+				<td>$1000</td>
+				<td>$200</td>
+				<td>$50</td>
+			</tr>
+			<tr>
+				<td>March 29, 2023</td>
+				<td>$1200</td>
+				<td>$200</td>
+				<td>$600</td>
+			</tr>
+		</tbody>
 </body>
 </html>
