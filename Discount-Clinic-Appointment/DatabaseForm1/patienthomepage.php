@@ -1,3 +1,13 @@
+<?php 
+session_start();
+//ob_start();
+
+	include("dbh-inc.php");
+	include("functions.php");
+
+	$user_data = check_login($conn);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
