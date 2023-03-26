@@ -21,7 +21,7 @@ session_start();
 			<ul>
 				<li class ="active"><a href="doctorhomepage.php">Home</a></li>
 				<li><a href="doctorappointments.php">Appointments</a></li>
-                <li><a href="./doctorprofile.php">Profile</a></li>
+               <!-- <li><a href="./doctorprofile.php">Profile</a></li> We don't have this php file yet! -->
 			</ul>
 		</nav>
 	</header>
