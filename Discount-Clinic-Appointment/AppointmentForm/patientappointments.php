@@ -15,7 +15,7 @@
       </header>
 <head>
 	<title>Appointment Making System</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="patient_appointments_style.css">
 </head>
 <body>
 	<div class="container">
@@ -41,6 +41,6 @@
 		</form>
 	</div>
     
-	<script src="script.js"></script>
+	<script src="patient_appointments_script.js"></script>
 </body>
 </html>
