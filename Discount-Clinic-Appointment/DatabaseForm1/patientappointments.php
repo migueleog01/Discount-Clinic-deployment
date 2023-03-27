@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="patient_appointments_style.css">
 </head>
 <body>
+	
 
 	<div class="container">
 		<h2>Appointment Form</h2>
@@ -59,6 +60,46 @@
 
 
 <?php
+
+	session_start();
+
+	include("dbh-inc.php");
+	include("functions.php");
+
+	$user_data = check_login($conn);
+
+	$username = $user_data['username'];
+	echo $username;
+
+	$query = "SELECT user_id FROM user WHERE username = '$username'";
+	$result = mysqli_query($conn, $query);
+
+	if($result && mysqli_num_rows($result) > 0) {
+		$user_data = mysqli_fetch_assoc($result);
+		$user_id = $user_data['user_id'];
+		//echo "User ID for $username: $user_id";
+	} else {
+		//echo "User not found";
+	}
+	//$user_id has the user id of the current user
+
+
+	$query = "SELECT patient_id FROM patient WHERE user_id = '$user_id'";
+	$result = mysqli_query($conn, $query);
+
+	if($result && mysqli_num_rows($result) > 0) {
+		$patient_data = mysqli_fetch_assoc($result);
+		$patient_id = $patient_data['patient_id'];
+		//echo  $patient_id;
+	} else {
+		//echo "Patient not found";
+	}
+	//patient_id has the patient id of the current user
+   
+	
+	 //echo $_SESSION['user_id']; 
+	
+
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$date = $_POST['date'];
@@ -116,11 +157,11 @@
 		}
 		//if true delete must be 0
 		//if false delete must be 1
-
-
+		//echo $_SESSION['username'];
+		//echo $user_id;
 		if($test === true ){
 			echo "true";
-			$sql = "INSERT INTO appointment (patient_id, date, time, doctor_id,office_id,deleted) VALUES (1 ,'$date', '$time', '$physician', '$address', 0)";
+			$sql = "INSERT INTO appointment (patient_id, date, time, doctor_id,office_id,deleted) VALUES ('$patient_id','$date', '$time', '$physician', '$address', 0)";
 			if (mysqli_query($conn, $sql)) {
 				echo "New record created successfully";
 			} else {
@@ -136,6 +177,7 @@
 			//$sql = "INSERT INTO appointment (patient_id, date, time, doctor_id,office_id,deleted) VALUES (1 ,'$date', '$time', '$physician', '$address',1)";
 			
 		}
+		
 
 
 

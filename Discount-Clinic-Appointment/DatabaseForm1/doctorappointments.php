@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
 	<title>Doctor Appointment Viewer</title>
 	<style>
 		table {
@@ -18,13 +17,14 @@
 		tr:nth-child(even) {
 			background-color: #f2f2f2;
 		}
-        h1 {
-            font-size: 50px;
-        }
+
+		h1 {
+			font-size: 50px;
+		}
 	</style>
-<h1><center> Discount Clinic <center></h1>
 </head>
 <body>
+	<h1><center>Discount Clinic</center></h1>
 	<h2>Scheduled Appointments</h2>
 	<table>
 		<thead>
@@ -36,31 +36,39 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>March 28, 2023</td>
-				<td>10:00 AM</td>
-				<td>John Doe</td>
-				<td>General Checkup</td>
-			</tr>
-			<tr>
-				<td>March 28, 2023</td>
-				<td>2:30 PM</td>
-				<td>Jane Smith</td>
-				<td>Flu-like Symptoms</td>
-			</tr>
-			<tr>
-				<td>March 29, 2023</td>
-				<td>9:15 AM</td>
-				<td>Mike Johnson</td>
-				<td>High Blood Pressure</td>
-			</tr>
-			<tr>
-				<td>March 29, 2023</td>
-				<td>1:45 PM</td>
-				<td>Susan Lee</td>
-				<td>Sore Throat</td>
-			</tr>
+			<?php
+			// replace with your database credentials
+			include("dbh-inc.php");
+
+			// retrieve appointments for the currently logged in doctor
+			$doctor_id = 305; // replace with the doctor's ID
+			$sql = "SELECT * FROM appointment WHERE doctor_id = $doctor_id";
+			$result = $conn->query($sql);
+
+			// display each appointment as a row in the table
+			if ($result->num_rows > 0) {
+				while ($row = $result->fetch_assoc()) {
+					echo "<tr>";
+					echo "<td>" . $row["date"] . "</td>";
+					echo "<td>" . $row["time"] . "</td>";
+					echo "<td>" . $row["patient_id"] . "</td>";
+					echo "</tr>";
+				}
+			} else {
+				echo "<tr><td colspan='4'>No appointments found.</td></tr>";
+			}
+
+			// close connection
+			$conn->close();
+			?>
 		</tbody>
 	</table>
 </body>
 </html>
+
+
+<?php 
+	//echo "Hello World";
+	include("dbh-inc.php");
+
+?>
