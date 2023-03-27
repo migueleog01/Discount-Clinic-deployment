@@ -38,11 +38,35 @@
 		<tbody>
 			<?php
 			// replace with your database credentials
+			session_start();
 			include("dbh-inc.php");
+			include("functions.php");
 
+			$user_data = check_login($conn);
 			// retrieve appointments for the currently logged in doctor
-			$doctor_id = 305; // replace with the doctor's ID
-			$sql = "SELECT * FROM appointment WHERE doctor_id = $doctor_id";
+			//$doctor_id = $user_data['username']; // replace with the doctor's ID
+			//echo $doctor_id;
+			$username = $user_data['username'];
+			$query = "SELECT user_id FROM user WHERE username = '$username'";
+			$result = mysqli_query($conn, $query);
+
+			// Check if the query was successful
+			if ($result && mysqli_num_rows($result) > 0) {
+				$user_data = mysqli_fetch_assoc($result);
+				$doctor_id = $user_data['user_id'];
+				echo "User ID for $doctor_id";
+			} else {
+				echo "User not found";
+			}
+
+
+			//$doctor_id = 305; // replace with the doctor's ID
+			//echo $doctor_id;
+			//$sql = "SELECT * FROM appointment WHERE doctor_id = $doctor_id";
+			$sql = "SELECT *
+			FROM discount_clinic.patient
+			JOIN discount_clinic.appointment ON appointment.patient_id = patient.patient_id
+			WHERE appointment.doctor_id = $doctor_id";
 			$result = $conn->query($sql);
 
 			// display each appointment as a row in the table
@@ -51,7 +75,7 @@
 					echo "<tr>";
 					echo "<td>" . $row["date"] . "</td>";
 					echo "<td>" . $row["time"] . "</td>";
-					echo "<td>" . $row["patient_id"] . "</td>";
+					echo "<td>" . $row["first_name"] . "</td>";
 					echo "</tr>";
 				}
 			} else {
