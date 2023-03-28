@@ -1,89 +1,119 @@
-/* Style for the form container */
-form {
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+*{
+    margin: 0;
+    padding: 0;
+    font-family: optima;
 
-/* Style for form labels */
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #333;
 }
-
-input:invalid {
-    border: 2px solid red;
-  }
-  
-  input:valid {
-    border: 2px solid blue;
-  }
-/* Style for form inputs and select */
-input[type="text"],
-select {
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: none;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #ccc; /* Add a border to create a square shape */
+.banner{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(45, 64, 61, 0.75), rgba(35, 49, 49, 0.75)), url(logo.png); 
+    background-size: cover;
+    background-position: center;
+    
+    
 }
-
-/* Style for submit button */
-input[type="submit"] {
-  background-color: #0066cc;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Style for required fields */
-input:required,
-select:required {
-  box-shadow: none;
-}
-
-/* Style for error messages */
-input:invalid,
-select:invalid {
-  box-shadow: none;
-}
-
-/* Blue theme */
-body {
-  background-color: #f2f2f2;
-}
-
-form {
-  background-color: #fff;
-  color: #333;
-}
-.error-message {
-    color: red;
-    margin-left: 10px;
-  }
-  .error-message {
+.navbar{
+    width: 100%;
+    margin: auto;
+    padding: 35px 0;
+    display: flex;
+    float: right;
+    align-items: center;
+    justify-content: space-between;
     position: absolute;
-    top: 100%;
-    left: 0;
-    display: none;
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  #error-message {
-  color: red;
+    
+    right: -1100px;
+    
 }
-#phone-error{
-    color:red;
-}
-#emergencyContactPhoneError {
-    color: red;
-  }
+.logo{
+    width: 120px;
+    cursor: pointer;
 
+}
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+
+}
+.navbar ul li a{
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    /*font-size: 14px;
+    //font-weight: 600;
+    letter-spacing: 1px;*/
+}
+.navbar ul li::after{
+    content: '';
+    width: 100%;
+    height: 3px;
+    background: #009688;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    /*display: block;
+    margin: auto;
+    transition: 0.5s;*/
+}
+.navbar ul li:hover::after{
+    width: 100%;
+}
+.content{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+}
+.content h1{
+    font-size: 70px;
+    margin-top: 80px;
+    /*font-weight: 700;
+    margin-bottom: 10px;*/
+}
+.content p{
+    font-size: 20px auto;
+    font-weight: 100;
+    /*font-weight: 300;*/
+}
+button{
+    border: 2px solid #009688;
+    border-radius: 25px;
+    background: transparent;
+    padding: 15px 0;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    /*text-transform: uppercase;*/
+    cursor: pointer;
+    margin: 20px 10px;
+    /*outline: none;*/
+    width: 200px;
+    position: relative;
+    overflow: hidden;
+
+}
+span{
+    background: #009688;
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: 0.5s
+    
+}
+button:hover span{
+    width: 0%;
+}
+button:hover{
+    color: #fff;
+    border: none;
+}
