@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
+/*
+body {
+  background-image: url('macintoshHD/Applications/MAMP/htdocs/discountclinic/Blue Waves Abstract Background.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+*/
+
+h1 {
+    font-size: 50px;
+    font-family: 'Abril Fatface', cursive;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+
+h3 {
+    font-size: 25px;
+    margin: 0;
+}
+
+h4 {
+    font-size: 25px;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: grey;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color: #111;
+  }
