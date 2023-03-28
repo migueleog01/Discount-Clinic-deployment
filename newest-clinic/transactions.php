@@ -16,9 +16,9 @@ session_start();
 			<ul>
 				<link rel="stylesheet" type="text/css" href="styles.css">
 				<li class ="active"><a href="index.php">Home</a></li>
+				<li><a href="patient_profile.php">Profile</a></li>
 				<li><a href="patientappointments.php">Schedule Appointment</a></li>
 		        <li><a href="transactions.php">Transactions</a></li>
-		        <li><a href="patientprofile.php">Profile</a></li>
 				<li><a href ="form.php">Patient Form</a></li>
 				<li><a href="logout.php">Logout</a></li>
 			</ul>
@@ -67,78 +67,89 @@ session_start();
 		</fieldset>
 
 		<input type="submit" value="Submit">
-		<input type="reset" value="Reset">
 	</form>
 	    <br>
+	<h2>Total Amount Owe</h2>
+	<table>	
+	<?php 
+		$username = $user_data['username'];
+
+			if($_SERVER['REQUEST_METHOD'] === 'POST'){
+				$moneyAmountInputted = $_POST['payment_amount'];
+				
+				$query_patient_id = "SELECT *
+				FROM discount_clinic.patient, discount_clinic.user, discount_clinic.appointment
+				WHERE patient.user_id = user.user_id AND appointment.patient_id = patient.patient_id AND user.username = '$username'";
+
+				$patient_info = $conn->query($query_patient_id);
+				$row = $patient_info->fetch_assoc();
+
+				$patient_id = $row["patient_id"];
+				$appointment_id = $row["appointment_id"];
+
+				
+				$insertQ = "INSERT INTO discount_clinic.transaction (patient_id, appointment_id, amount, pay) 
+						VALUES ($patient_id, $appointment_id, $moneyAmountInputted, 1)";
+
+				mysqli_query($conn, $insertQ);
+			}
+
+
+		$query = 
+		"SELECT * 
+		FROM discount_clinic.transaction, discount_clinic.appointment, discount_clinic.patient, discount_clinic.user
+		WHERE transaction.appointment_id = appointment.appointment_id AND patient.patient_id = appointment.patient_id AND patient.user_id = user.user_id AND user.username = '$username'
+		ORDER BY appointment.date ASC";
+
+		$result = $conn->query($query);
+		$row = $result->fetch_assoc();
+
+		echo "<td>" . $row["total_owe"] . "</td>";
+	 ?>
+	</table>
     <h2> All Transactions </h2>
     <table>
 		<thead>
 			<tr>
 				<th>Transaction Date</th>
-				<th>Amount Paid</th>
-				<th>Total Amount Owe</th>
+				<th>Amount</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php
 			// replace with your database credentials
 			
-			$TEST = $user_data['username'];
+
+
+			
+			
 			$query = "SELECT * 
-			FROM discount_clinic.transaction, discount_clinic.appointment, discount_clinic.patient
-			WHERE transaction.appointment_id = appointment.appointment_id AND patient.patient_id = appointment.patient_id AND transaction.deleted = 0
+			FROM discount_clinic.transaction, discount_clinic.appointment, discount_clinic.patient, discount_clinic.user
+			WHERE transaction.appointment_id = appointment.appointment_id AND patient.patient_id = appointment.patient_id AND patient.user_id = user.user_id AND user.username = '$username'
 			ORDER BY appointment.date ASC";
 
-
-			$query = "SELECT patient_id FROM patient WHERE user_id = '$user_id'";
-			$result = mysqli_query($conn, $query);
-			if($result && mysqli_num_rows($result) > 0) {
-				$patient_data = mysqli_fetch_assoc($result);
-				$patient_id = $patient_data['patient_id'];
-			} else {
-				echo "Patient not found";
-			}
-
-
-
-			if($_SERVER['REQUEST_METHOD'] === 'POST'){
-			$moneyAmountInputted = $_POST['payment_amount'];
-			echo $moneyAmountInputted;
-
-
-			$sql = "INSERT INTO discount_clinic.transaction (patient_id, appointment_id, amount, pay) VALUES ('$patient_id', '$appointment_id','$moneyAmountInputted', 1)";
-			
 			$result = $conn->query($query);
 
-			
 			if ($result->num_rows > 0) {
 				while ($row = $result->fetch_assoc()) {
 					echo "<tr>";
 					echo "<td>" . $row["date"] . "</td>";
-					echo "<td>" . $row["amount"] . "</td>";
-					echo "<td>" . $row["total_owe"] . "</td>";
+					if($row['pay'] == 0)
+						echo "<td>" . "+" . $row["amount"] . "</td>";
+					else
+						echo "<td>" . "-" . $row["amount"] . "</td>";
 					echo "</tr>";
 				}
 			} else {
-				echo "<tr><td colspan='4'>No appointments found.</td></tr>";
+				echo "<tr><td colspan='4'>No transactions found.</td></tr>";
 			}
-
 	
 			$conn->close();
-		}
-
-
-
-
+		
 			?> 
-
-
-
 		</tbody>
 	</table>
 </body>
 </html>
-
 <?php
-
 ?>
