@@ -70,38 +70,68 @@ session_start();
 			padding: 10px;
 			width: 100px;
 			color: white;
-			background-color: lightblue;
+			background-color: #0069d9;
 			border:	none;
 		}
 
-		#box{
+		#box-parent{
+			background-color: #f5f5f5;
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
+		#box{
+			border: 1px solid #ccc;
 			border-radius: 25px;
-			background-color: blueviolet;
+			background-color: white; 
 			margin: auto;
 			width: 300px;
 			padding: 20px;
+			box-shadow: 0px 0px 10px 0px #ccc;
+			justify-content: center;
+			align-items: stretch;
+			display: flex;
+			flex-direction: column;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		#input-div{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+		}
+
+		#button {
+			width: 100%;
 		}
 		
 	</style>
 
-
+	<div id="box-parent">
 	<div id="box">
 
 		<form method="post">
-			<div style="font-size: 20px;margin: 10px;color: white;text-align: center;">Login</div>
-
+			<div style="font-size: 20px;margin: 10px;color: black;text-align: center;"><strong>Login</strong></div>
+			<div id="input-div">
 			<input id="text" type="text" name="role" placeholder="Role (doctor, patient)"><br><br>
 
 			<input id="text" type="text" name="username" placeholder="Username"><br><br>
 			<input id="text" type="password" name="password" placeholder="Password"><br><br>
-
-			<input id="button" type="submit" value="Login"><br><br>
-
-			<a href="signup.php">Click to Register</a><br><br>
+				<input id="button" type="submit" value="LOGIN"><br><br>
+				<a href="signup.php">Click to Register</a><br><br>
+			</div>
 		</form>
 	</div>
-
+	</div>
 </body>
 </html>
 
