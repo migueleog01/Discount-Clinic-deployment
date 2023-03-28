@@ -1,3 +1,26 @@
+<?php
+	session_start();
+	include("dbh-inc.php");
+    include("functions.php");
+
+    $user_data = check_login($conn);
+    $user_id_fk = $user_data['user_ID'];
+
+    $patient_name = "SELECT first_name FROM patient WHERE user_id = '$user_id_fk'";
+
+    $first_name = mysqli_query($conn, $patient_name);
+
+		if($first_name && mysqli_num_rows($first_name) > 0)
+		{
+
+			$name = mysqli_fetch_assoc($first_name);
+			$output = $name['first_name'];
+			echo $output;
+
+		}
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,4 +53,5 @@
     <p><strong>Medical Conditions:</strong> Diabetes, High Blood Pressure</p>
 	<p><strong>Allergies:</strong> Peanuts, Shellfish</p>
 </body>
+
 </html>
