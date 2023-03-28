@@ -6,6 +6,8 @@
     $user_data = check_login($conn);
     $user_id_fk = $user_data['user_ID'];
 
+
+    //queries patient first name
     $patient_name = "SELECT first_name FROM patient WHERE user_id = '$user_id_fk'";
 
     $first_name = mysqli_query($conn, $patient_name);
@@ -18,6 +20,40 @@
 			echo $output;
 
 		}
+	
+	//queries patient gender
+	$patient_gender = "SELECT gender FROM patient WHERE user_id = '$user_id_fk'";
+
+    	$gender = mysqli_query($conn, $patient_gender);
+
+        if($gender && mysqli_num_rows($gender) > 0)
+        {
+            $pgender = mysqli_fetch_assoc($gender);
+            $genderoutput = $pgender['gender'];
+        }
+
+	//queries patient DOB
+	$patient_DOB = "SELECT DOB FROM patient WHERE user_id = '$user_id_fk'";
+
+    	$DOB = mysqli_query($conn, $patient_DOB);
+
+        if($DOB && mysqli_num_rows($DOB) > 0)
+        {
+            $pDOB = mysqli_fetch_assoc($DOB);
+            $DOBoutput = $pDOB['DOB'];
+        }
+
+	//queries patient phone #
+	$patient_phone_number = "SELECT phone_number FROM patient WHERE user_id = '$user_id_fk'";
+
+	$phone_number = mysqli_query($conn, $patient_phone_number);
+	
+			if($phone_number && mysqli_num_rows($phone_number) > 0)
+			{
+				$pphonenumber = mysqli_fetch_assoc($phone_number);
+				$phonenumberoutput = $pphonenumber['phone_number'];
+			}
+
 ?>
 
 
