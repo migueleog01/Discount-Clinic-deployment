@@ -1,4 +1,12 @@
+<?php 
+session_start();
+//ob_start();
 
+	include("dbh-inc.php");
+	include("functions.php");
+
+	$user_data = check_login($conn);
+?>
 
 <!DOCTYPE html>
 <html>
@@ -72,18 +80,7 @@
     </tr>
   </thead>
   <tbody>
-	<?php 
-ob_start();
-session_start();
-
-
-	include("dbh-inc.php");
-	include("functions.php");
-
-	$user_data = check_login($conn);
-
-
-
+	<?php
 		
 
 		$TEST = $user_data['username'];
@@ -129,8 +126,7 @@ session_start();
 		}
 		
 		$conn->close();
-		ob_flush();
-?>
+	?>
   </tbody>
 </table>
 </body>
