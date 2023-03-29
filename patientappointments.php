@@ -1,5 +1,5 @@
+
 <?php
-ob_start();
 session_start();
 
 include("dbh-inc.php");
@@ -59,17 +59,19 @@ $result = mysqli_query($conn, $sql);
 FROM discount_clinic.doctor_office, discount_clinic.office, discount_clinic.doctor, discount_clinic.address
 WHERE office.office_id = doctor_office.OID AND doctor.doctor_id = doctor_office.DID AND address.address_id = office.address_id;"; -->
 
+<script src="patient_appointments_script.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
   let rows = [];
   let row = [];
   <?php
-	ob_start();
     while ($row = mysqli_fetch_assoc($result)) {
       $address = $row["street_address"];
       $fname = $row["first_name"];
       $specialty = $row["specialty"];
   ?>
-  row = ['<?php echo $address; ?>', '<?php echo $fname; ?>', '<?php echo $specialty ?>'];
+  row = ['<?php echo $address; ?>', '<?php echo $fname; ?>', '<?php echo $specialty; ?>'];
   rows.push(row);
   row = [];
   // rows.push(<?php echo $row;?>)
@@ -91,8 +93,9 @@ WHERE office.office_id = doctor_office.OID AND doctor.doctor_id = doctor_office.
 			<input type="date" id="date" name="date" required>
 
 			<label for="time">Time:</label>
-            <select id="time" name="time" required></select>
-		
+            <select id="time" name="time" required>
+            <option value=""></option>
+		        </select>
 
 
         <label for="state">Select a State:</label>
@@ -195,6 +198,6 @@ WHERE office.office_id = doctor_office.OID AND doctor.doctor_id = doctor_office.
 		</form>
 	</div>
     
-	<script src="patient_appointments_script.js"></script>
+	<!--<script src="patient_appointments_script.js"></script>-->
 </body>
 </html>
