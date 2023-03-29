@@ -160,7 +160,7 @@
     mysqli_close($conn);
     
     }
-    ob_end_flush();
+ 
     ?>
 	<h1>Patient Information Form</h1>
 	<form method="post" action = "<?php echo $_SERVER['PHP_SELF']; ?>" >
