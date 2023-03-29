@@ -82,6 +82,7 @@ session_start();
   </thead>
   <tbody>
 	<?php
+	  	ob_start();
 		
 
 		$TEST = $user_data['username'];
