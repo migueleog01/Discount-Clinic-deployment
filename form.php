@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+
     <script src = "script.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<title>Patient Information Form</title>
@@ -41,15 +42,22 @@
 </head>
 <body>
     <?php
-	ob_start();
-	session_start();
+    
+
+    session_start();
+    ob_start();
+
+
+//ob_start();
 
 
     include("dbh-inc.php");
     include("functions.php");
 
+
     $user_data = check_login($conn);
     $user_id_fk = $user_data['user_ID'];
+
 
     // Check if the form has been submitted
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -78,12 +86,33 @@
         $emergencyLastName = $_POST['Emergencylast-name'];
         $relationship = $_POST['Relationship'];
         $emergencyPhone = $_POST['emergencyContactPhone'];
-
+        $primaryPhysician = $_POST['primary-physician'];
+        $physicianStreet = $_POST['physician-street'];
+        $physicianCity = $_POST['physician-city'];
+        $physicianState = $_POST['physician-state'];
         $allergies = $_POST['allergies'];
 
         $emergencyMiddleInitial =  'D';
 
 
+        // Insert values into friends table
+        
+        //$sql3 = "INSERT INTO address ( street, city, state, zip, deleted) VALUES ( '$street', '$city', '$state', '$zip', 0)";
+        //$sql3 = "INSERT INTO address (adress_id, street, city, state, zip, deleted) VALUES ((SELECT MAX(patient_id) FROM patient), '$street', '$city', '$state', '$zip', 0)";
+        //$sql = "INSERT INTO friends (firstname, last_name, gender) VALUES ('$firstname', '$last_name', '$gender')";
+        //print adress
+        //$sql3 = "INSERT INTO address (street_address, city, state, zip, deleted) VALUES ('123 Main St', 'Anytown', 'CA', 12345, 0) ";
+        //$sql3 = "INSERT INTO address (address_id,street_address, city, state, zip, deleted) VALUES ((SELECT MAX(patient_id) FROM patient),'$street', '$city', '$state', '$zip', 0) ";
+        //$sql1 = "INSERT INTO patient (user_id, first_name, middle_initial, last_name, gender, phone_number, DOB, deleted) 
+        //VALUES (NULL, '$firstname', '$middleInitial', '$last_name', '$gender', '$phone', '$dob', 0)";
+
+       //$sql2 = "INSERT INTO emergency_contact (patient_id, e_first_name, e_middle_initial, e_last_name, phone_number, relationship, deleted) VALUES ((SELECT MAX(patient_id) FROM patient), '$emergencyFirstName', '$emergencyMiddleInitial', '$emergencyLastName', '$emergencyPhone', '$relationship', 0)";
+        
+
+        //echo $street;
+        //echo $city;
+        //echo $state;
+        //echo $zip;
 
         $sql_address = "INSERT INTO address (street_address, city, state, zip, deleted) VALUES ('$street', '$city', '$state', '$zip', 0)";
         if(mysqli_query($conn, $sql_address)){
@@ -95,8 +124,8 @@
             $sql_patient = "INSERT INTO patient (user_id, address_id, first_name, middle_initial, last_name, gender, phone_number, DOB, deleted) 
             VALUES (NULL, $address_id, '$firstname', '$middleInitial', '$last_name', '$gender', '$phone', '$dob', 0)";
             */
-            $sql_patient = "INSERT INTO patient (user_id, address_id, first_name, middle_initial, last_name, gender, phone_number, DOB, total_owe, deleted) 
-            VALUES ($user_id_fk, $address_id, '$firstname', '$middleInitial', '$last_name', '$gender', '$phone', '$dob', 0, 0)";
+            $sql_patient = "INSERT INTO patient (user_id, address_id, first_name, middle_initial, last_name, gender, phone_number, DOB, deleted) 
+            VALUES ($user_id_fk, $address_id, '$firstname', '$middleInitial', '$last_name', '$gender', '$phone', '$dob', 0)";
             
             if(mysqli_query($conn, $sql_patient)){
                 // Retrieve generated patient_id value
@@ -126,7 +155,7 @@
         }
         
         /*
-        if (mysqli_query($conn, $sql_address) && mysqli_query($conn, $sql_patient) && mysqli_query($conn, $sql_emergency)) {
+        if (mysqli_query($conn, $sql1) && mysqli_query($conn, $sql2) && mysqli_query($conn, $sql3)) {
 
             //echo "New record created successfully";
 
@@ -155,12 +184,12 @@
 
         // Close the database connection
         mysqli_close($conn);
-        */
-    
+        
+    */
     mysqli_close($conn);
     
     }
- 
+    
     ?>
 	<h1>Patient Information Form</h1>
 	<form method="post" action = "<?php echo $_SERVER['PHP_SELF']; ?>" >
@@ -272,7 +301,8 @@
         <input type="text" id="emergencyContactPhone" name="emergencyContactPhone" pattern="\d{3}-\d{3}-\d{4}" placeholder="123-234-2334" required>
         <div id="emergencyContactPhoneError"></div>
 
-<!--
+        <h1>Medical Health Information</h1>
+
         <label for="primary-physician">Primary Physician:</label>
 
         <label for="physician1"><input type="radio" id="physician1" name="primary-physician" value="Dr. John Doe" required>Dr. John Doe</label>
@@ -343,15 +373,13 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
-    -->
-
-    <h1>Medical Health Information</h1>
         <label for="allergies">Allergies:</label>
         <input type="text" id="allergies" name="allergies" >
         <!-- <button type="submit" value="Submit"</button > -->
         <button type="submit" value="Submit">Submit</button>
 
     <form >
+    
     
 </body>
 
