@@ -2,9 +2,11 @@ const dateInput = document.getElementById("date");
 const errorMessage = document.getElementById("error-message");
 //const selectState = document.getElementById("state")
 
+/*
 selectState.addEventListener('change', () => {
   document.getElementById('offices').classList.toggle("hidden")
 })
+*/
 
 dateInput.addEventListener('input', function() {
   const enteredDate = dateInput.value;
