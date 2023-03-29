@@ -163,7 +163,7 @@
     //ob_end_flush();
     ?>
 	<h1>Patient Information Form</h1>
-	<form method="post" action = "<?php echo $_SERVER['PHP_SELF']; ?>" >
+	<form method="post" action = "" >
 		<label for="firstname">First Name:</label>
 		<input type="text" id="first-name" name="firstname" required>
 		
