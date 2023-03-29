@@ -166,10 +166,7 @@
         <button type="submit" value="Submit">Submit</button>
 
         <form>
-
-</body>
-<tbody>
-    <?php
+                <?php
     ob_start();
     session_start();
 
@@ -288,6 +285,8 @@
     }
     //ob_end_flush();
     ?>
-</tbody>
+
+</body>
+
 
 </html>
