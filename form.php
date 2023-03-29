@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
 
-    <script src = "script.js" defer></script>
+    <script src = "script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<title>Patient Information Form</title>
 	<style>
@@ -41,158 +41,9 @@
 	</style>
 </head>
 <body>
-    <?php
     
-
-    session_start();
-    ob_start();
-
-
-//ob_start();
-
-
-    include("dbh-inc.php");
-    include("functions.php");
-
-
-    $user_data = check_login($conn);
-    $user_id_fk = $user_data['user_ID'];
-
-
-    // Check if the form has been submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Get input values
-        /*
-        $firstname =  $_POST['firstname'];
-        $last_name = $_POST['last_name'];
-        $gender = $_POST['gender'];
-        //print first name
-        echo $firstname;
-        */
-
-        $firstname = $_POST['firstname'];
-        $middleInitial = $_POST['middle-initial'];
-        $last_name = $_POST['last_name'];
-        $gender = $_POST['gender'];
-        $dob = $_POST['date-input'];
-        $dob = date('Y-m-d', strtotime($dob));
-        $phone = $_POST['phone'];
-        $street = $_POST['street'];
-        $city = $_POST['city'];
-        $state = $_POST['state'];
-        
-        $zip = $_POST['zipcode'];
-        $emergencyFirstName = $_POST['Emergencyfirst-name'];
-        $emergencyLastName = $_POST['Emergencylast-name'];
-        $relationship = $_POST['Relationship'];
-        $emergencyPhone = $_POST['emergencyContactPhone'];
-        $primaryPhysician = $_POST['primary-physician'];
-        $physicianStreet = $_POST['physician-street'];
-        $physicianCity = $_POST['physician-city'];
-        $physicianState = $_POST['physician-state'];
-        $allergies = $_POST['allergies'];
-
-        $emergencyMiddleInitial =  'D';
-
-
-        // Insert values into friends table
-        
-        //$sql3 = "INSERT INTO address ( street, city, state, zip, deleted) VALUES ( '$street', '$city', '$state', '$zip', 0)";
-        //$sql3 = "INSERT INTO address (adress_id, street, city, state, zip, deleted) VALUES ((SELECT MAX(patient_id) FROM patient), '$street', '$city', '$state', '$zip', 0)";
-        //$sql = "INSERT INTO friends (firstname, last_name, gender) VALUES ('$firstname', '$last_name', '$gender')";
-        //print adress
-        //$sql3 = "INSERT INTO address (street_address, city, state, zip, deleted) VALUES ('123 Main St', 'Anytown', 'CA', 12345, 0) ";
-        //$sql3 = "INSERT INTO address (address_id,street_address, city, state, zip, deleted) VALUES ((SELECT MAX(patient_id) FROM patient),'$street', '$city', '$state', '$zip', 0) ";
-        //$sql1 = "INSERT INTO patient (user_id, first_name, middle_initial, last_name, gender, phone_number, DOB, deleted) 
-        //VALUES (NULL, '$firstname', '$middleInitial', '$last_name', '$gender', '$phone', '$dob', 0)";
-
-       //$sql2 = "INSERT INTO emergency_contact (patient_id, e_first_name, e_middle_initial, e_last_name, phone_number, relationship, deleted) VALUES ((SELECT MAX(patient_id) FROM patient), '$emergencyFirstName', '$emergencyMiddleInitial', '$emergencyLastName', '$emergencyPhone', '$relationship', 0)";
-        
-
-        //echo $street;
-        //echo $city;
-        //echo $state;
-        //echo $zip;
-
-        $sql_address = "INSERT INTO address (street_address, city, state, zip, deleted) VALUES ('$street', '$city', '$state', '$zip', 0)";
-        if(mysqli_query($conn, $sql_address)){
-            // Retrieve generated address_id value
-            $address_id = mysqli_insert_id($conn);
-            
-            // Insert new patient record using the generated address_id value
-            /*
-            $sql_patient = "INSERT INTO patient (user_id, address_id, first_name, middle_initial, last_name, gender, phone_number, DOB, deleted) 
-            VALUES (NULL, $address_id, '$firstname', '$middleInitial', '$last_name', '$gender', '$phone', '$dob', 0)";
-            */
-            $sql_patient = "INSERT INTO patient (user_id, address_id, first_name, middle_initial, last_name, gender, phone_number, DOB, deleted) 
-            VALUES ($user_id_fk, $address_id, '$firstname', '$middleInitial', '$last_name', '$gender', '$phone', '$dob', 0)";
-            
-            if(mysqli_query($conn, $sql_patient)){
-                // Retrieve generated patient_id value
-                $patient_id = mysqli_insert_id($conn);
-                
-                // Insert new emergency contact record using the generated patient_id value
-                $sql_emergency = "INSERT INTO emergency_contact (patient_id, e_first_name, e_middle_initial, e_last_name, phone_number, relationship, deleted) 
-                VALUES ($patient_id, '$emergencyFirstName', '$emergencyMiddleInitial', '$emergencyLastName', '$emergencyPhone', '$relationship', 0)";
-                
-                if(mysqli_query($conn, $sql_emergency)){
-                    //echo "Records inserted successfully.";
-                    // Close the database connection
-                    //mysqli_close($conn);
-                    mysqli_close($conn);
-                    header("Location: ".$_SERVER['PHP_SELF']);
-                    header("Location: thankyouForm.php");
-                } else{
-                    echo "ERROR: Could not able to execute $sql_emergency. " . mysqli_error($conn);
-
-
-                }
-            } else{
-                echo "ERROR: Could not able to execute $sql_patient. " . mysqli_error($conn);
-            }
-        } else{
-            echo "ERROR: Could not able to execute $sql_address. " . mysqli_error($conn);
-        }
-        
-        /*
-        if (mysqli_query($conn, $sql1) && mysqli_query($conn, $sql2) && mysqli_query($conn, $sql3)) {
-
-            //echo "New record created successfully";
-
-            // Close the database connection
-
-            //make sur it executes
-
-
-
-            mysqli_close($conn);
-            header("Location: ".$_SERVER['PHP_SELF']);
-            header("Location: thankyouForm.php");
-        
-            //exit();
-
-            //header("Location: ./thankyouForm.php");
-            exit();
-            
-
-
-
-        } else {
-            echo "Error: " . $sql1 . "<br>" . mysqli_error($conn);
-            echo "Error: " . $sql2 . "<br>" . mysqli_error($conn);
-        }
-
-        // Close the database connection
-        mysqli_close($conn);
-        
-    */
-    mysqli_close($conn);
-    
-    }
-    
-    ?>
 	<h1>Patient Information Form</h1>
-	<form method="post" action = "<?php echo $_SERVER['PHP_SELF']; ?>" >
+	<form method="post" action = "" >
 		<label for="firstname">First Name:</label>
 		<input type="text" id="first-name" name="firstname" required>
 		
