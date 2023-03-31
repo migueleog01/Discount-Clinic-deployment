@@ -1,17 +1,4 @@
-<?php
-ob_start();
-session_start();
 
-include("dbh-inc.php");
-include("functions.php");
-$user_data = check_login($conn);
-//SELECT 
-$sql = "SELECT * 
-FROM discount_clinic.doctor_office, discount_clinic.office, discount_clinic.doctor, discount_clinic.address
-WHERE office.office_id = doctor_office.OID AND doctor.doctor_id = doctor_office.DID AND address.address_id = office.address_id;";
-
-$result = mysqli_query($conn, $sql);
-?>
 
 
 <!DOCTYPE html>
@@ -35,8 +22,11 @@ $result = mysqli_query($conn, $sql);
 	<link rel="stylesheet" href="patient_appointments_style.css">
 </head>
 
+  <script src="patient_appointments_script.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<!-- <script>
+<script>
+  
   function my_fun(str) {
     if(window.XMLHttpRequest) {
       xmlhttp = new XMLHttpRequest();
@@ -47,61 +37,129 @@ $result = mysqli_query($conn, $sql);
 
     xmlhttp.onreadystatechange = function() {
       if (this.readyState==4 && this.status==200) {
-        document.getElementById('poll').innerHTML = this.responseText;
+        document.getElementById('office').innerHTML = this.responseText;
       }
     }
+    //alert(str);
     xmlhttp.open("GET","helper.php?value="+str, true);
     xmlhttp.send();
   }
 
-</script> -->
-<!-- $sql = "SELECT * 
-FROM discount_clinic.doctor_office, discount_clinic.office, discount_clinic.doctor, discount_clinic.address
-WHERE office.office_id = doctor_office.OID AND doctor.doctor_id = doctor_office.DID AND address.address_id = office.address_id;"; -->
-<script src="patient_appointments_script.js" defer></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-  let rows = [];
-  let row = [];
-  <?php
-	ob_start();
-    while ($row = mysqli_fetch_assoc($result)) {
-      $address = $row["street_address"];
-      $fname = $row["first_name"];
-      $specialty = $row["specialty"];
-  ?>
-  row = ['<?php echo $address; ?>', '<?php echo $fname; ?>', '<?php echo $specialty; ?>'];
-  rows.push(row);
-  row = [];
-  // rows.push(<?php echo $row;?>)
-  <?php
+  function my_other_fun(str) {
+    if(window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
     }
-  ?>
-  console.log(rows);
+    else{
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState==4 && this.status==200) {
+        document.getElementById('doctor').innerHTML = this.responseText;
+      }
+    }
+    //alert(str);
+    xmlhttp.open("GET","other_helper.php?value="+str, true);
+    xmlhttp.send();
+
+  }
+
 </script>
 
-
 <body>
+
+
+<?php
+ob_start();
+session_start();
+
+include("dbh-inc.php");
+include("functions.php");
+
+$user_data = check_login($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $date = $_POST['date'];
+        $date = date('Y-m-d', strtotime($date));
+        $time = $_POST['time'];
+        $time = date('H:i', strtotime($time));
+        $office_id = $_POST['office'];
+        $doctor_id = $_POST['doctor'];
+
+    $username = $user_data['username'];
+
+  $query = "SELECT user_id FROM user WHERE username = '$username'";
+  $result = mysqli_query($conn, $query);
+
+  if($result && mysqli_num_rows($result) > 0) {
+    $user_data = mysqli_fetch_assoc($result);
+    $user_id = $user_data['user_id'];
+  } else {
+  }
+
+  $query = "SELECT patient_id FROM patient WHERE user_id = '$user_id'";
+  $result = mysqli_query($conn, $query);
+
+  if($result && mysqli_num_rows($result) > 0) {
+    $patient_data = mysqli_fetch_assoc($result);
+    $patient_id = $patient_data['patient_id'];
+    
+    $sql = "INSERT INTO appointment (patient_id, doctor_id, office_id, time, date, deleted) VALUES ('$patient_id','$doctor_id','$office_id','$time','$date', 0)";
+            if (mysqli_query($conn, $sql)) 
+            {
+                  $appointment_status = "SELECT * FROM approval WHERE specialist_doctor_id = '$doctor_id' AND patient_id = '$patient_id' AND approval_bool=1";
+                  //echo $sql_doctor;
+                  $result = mysqli_query($conn, $appointment_status);
+                  if ($result && mysqli_num_rows($result) > 0) 
+                  {
+                    echo "Thank you for scheduling your appointment!";
+                  } 
+                  else 
+                  {
+                        $sql_specialist = "SELECT * FROM doctor WHERE doctor_id = '$doctor_id' AND specialty <> 'primary'";
+                        $res = mysqli_query($conn, $sql_specialist);
+                        if ($res && mysqli_num_rows($res) > 0) 
+                        {
+                          echo "You need approval from a GP.";
+                        }
+                        
+                        else 
+                        {
+                          echo "Thank you for scheduling your appointment!";
+                        }
+
+                  }
+            }
+            else 
+            {
+              echo "You need approval from a GP.";
+            }
+  } 
+  else {
+    echo "Patient not found";
+  }
+} 
+
+
+?>
 
 	<div class="container">
 		<h2>Appointment Form</h2>
 		<form action="#" method="POST">
 
 
-			<label for="date">Date:</label>
-			<input type="date" id="date" name="date" required>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
 
-			<label for="time">Time:</label>
+      <label for="time">Time:</label>
             <select id="time" name="time" required>
-            <option value=""></option></select>
-		
+            <option value=""></option>
+            </select>
 
 
         <label for="state">Select a State:</label>
-        <!--  <select id="state" name="state" required>  -->
-
-				<!-- <select id="state" name="state" onchange="my_fun(this.value);"> -->
-        <!-- <select id="state" onchange="my_fun(this.value);"> -->
+				<select id="state" name="state" onchange="my_fun(this.value);">
 
             <option value=""></option>
             <option value="AL">Alabama</option>
@@ -156,47 +214,22 @@ WHERE office.office_id = doctor_office.OID AND doctor.doctor_id = doctor_office.
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
-        
-        <!--
-        <script>
-          const stateSelect = document.getElementById('state');
-          const stateValue = stateSelect.value;
-        </script>
-      -->
-<!-- onchange="my_other_fun(this.value);" 
 
-"SELECT * 
-FROM discount_clinic.doctor_office, discount_clinic.office, discount_clinic.doctor, discount_clinic.address
-WHERE office.office_id = doctor_office.OID AND doctor.doctor_id = doctor_office.DID AND address.address_id = office.address_id;""
--->
-
-				<div id="poll">
-          <select id="office"> 
-				 <!-- 	<select id="office" onchange="my_other_fun(this.value);">  -->
-          <!-- <select id="office" name="office" onchange="my_other_fun(this.value);"> -->
+          <label for="office">Select an Office:</label>
+					<select id="office" name="office" onchange="my_other_fun(this.value);">
 						<option value="">Select location</option>
 					</select>
-				</div>
 
-
-        <div id="poll2">
-          <select>
+          <label for="doctor">Select a Doctor:</label>
+          <select id="doctor" name="doctor" required>
             <option value="">Select doctor</option>
           </select>
-        </div>
 
+          <div></div>
 
-
-
-        <label for="zipcode">Zip Code:</label>
-        <input type="text" id="zipcode" name="zipcode" placeholder="12345" pattern="[0-9]{5}" required>
-
-			
 
 			<button type="submit" value = "Submit" id="submitBtn">Submit</button>
 		</form>
 	</div>
-    
-	
 </body>
 </html>
