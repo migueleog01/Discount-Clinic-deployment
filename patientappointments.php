@@ -1,4 +1,9 @@
+<?php
 
+ob_start();
+session_start();
+
+?>
 
 
 <!DOCTYPE html>
@@ -67,7 +72,6 @@
 </script>
 
 <body>
-
 
 
 
@@ -157,9 +161,14 @@
 
 			<button type="submit" value = "Submit" id="submitBtn">Submit</button>
 		</form>
-    <?php
-ob_start();
-session_start();
+	</div>
+</body>
+</html>
+
+
+<?php
+//ob_start();
+//session_start();
 
 include("dbh-inc.php");
 include("functions.php");
@@ -231,6 +240,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 ?>
-	</div>
-</body>
-</html>
+
