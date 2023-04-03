@@ -1,6 +1,6 @@
 <?php
- session_start();
-//ob_start();
+ 	session_start();
+ 	ob_start();
 
 	// include("connection.php");
 	include("dbh-inc.php");
