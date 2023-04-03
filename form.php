@@ -214,7 +214,7 @@ session_start();
 
         $allergies = $_POST['allergies'];
 
-        $emergencyMiddleInitial =  'D';
+        $emergencyMiddleInitial =  ' ';
 
 
 
