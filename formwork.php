@@ -1,7 +1,8 @@
 <!--Patient Information Form-->
 <?php
-    session_start();
     ob_start();
+    session_start();
+    
     
 
 
