@@ -116,7 +116,7 @@ echo $output;
 	echo "Relationship: " . $relationship . "<br>";
 	?>
 	<h2>Edit Information</h2>
-	<form method="post" action="patient_profile.php" onsubmit="window.location.reload()">
+	<form method="post" action="" onsubmit="window.location.reload()">
 		<label for="field">Select field to update:</label>
 		<select id="field" name="field">
 			<option value="first_name">First Name</option>
