@@ -262,7 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			break;
 			//edit city
 		case "city":
-			$sql = "UPDATE patient SET city = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
+			$sql = "UPDATE address SET city = '$_POST[new_value]' WHERE address_id = '$address_id_fk'";
 			if (mysqli_query($conn, $sql)) {
 				echo "Record updated successfully";
 				header("Location: patient_profile.php");
@@ -272,7 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			break;
 			//edit state
 		case "state":
-			$sql = "UPDATE patient SET state = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
+			$sql = "UPDATE address SET state = '$_POST[new_value]' WHERE address_id = '$address_id_fk'";
 			if (mysqli_query($conn, $sql)) {
 				echo "Record updated successfully";
 				header("Location: patient_profile.php");
@@ -281,8 +281,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			}
 			break;
 			//edit zip code
-		case "zip_code":
-			$sql = "UPDATE patient SET zip_code = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
+		case "zip":
+			$sql = "UPDATE address SET zip = '$_POST[new_value]' WHERE address_id = '$address_id_fk'";
 			if (mysqli_query($conn, $sql)) {
 				echo "Record updated successfully";
 				header("Location: patient_profile.php");
