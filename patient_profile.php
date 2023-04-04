@@ -185,6 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$sql = "UPDATE patient SET first_name = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
 			if (mysqli_query($conn, $sql)) {
 				echo "Record updated successfully";
+				header("Refresh:0");
 				header("Location: patient_profile.php");
 			} else {
 				echo "Error updating record: " . mysqli_error($conn);
