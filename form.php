@@ -181,7 +181,6 @@ session_start();
     include("dbh-inc.php");
     include("functions.php");
 
-    $user_data = check_login($conn);
     $user_id_fk = $user_data['user_ID'];
 
     // Check if the form has been submitted
