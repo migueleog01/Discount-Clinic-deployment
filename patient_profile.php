@@ -151,7 +151,7 @@ echo $output;
 
 
 <?php
-
+ob_start();
 //session_start();
 include("dbh-inc.php");
 //include("functions.php");
