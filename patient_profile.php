@@ -116,7 +116,7 @@ echo $output;
 	echo "Relationship: " . $relationship . "<br>";
 	?>
 	<h2>Edit Information</h2>
-	<form method="post" action="">
+	<form method="post" action="patient_profile.php">
 		<label for="field">Select field to update:</label>
 		<select id="field" name="field">
 			<option value="first_name">First Name</option>
@@ -185,8 +185,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$sql = "UPDATE patient SET first_name = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
 			if (mysqli_query($conn, $sql)) {
 				echo "Record updated successfully";
-				header("Refresh:0");
-				//header("Location: patient_profile.php");
+				//header("Refresh:0");
+				header("Location: patient_profile.php");
 			} else {
 				echo "Error updating record: " . mysqli_error($conn);
 			}
