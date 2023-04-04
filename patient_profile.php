@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			if (mysqli_query($conn, $sql)) {
 				echo "Record updated successfully";
 				header("Refresh:0");
-				header("Location: patient_profile.php");
+				//header("Location: patient_profile.php");
 			} else {
 				echo "Error updating record: " . mysqli_error($conn);
 			}
