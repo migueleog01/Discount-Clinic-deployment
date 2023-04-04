@@ -1,4 +1,5 @@
 <?php
+//this works
 ob_start();
 session_start();
 include("dbh-inc.php");
