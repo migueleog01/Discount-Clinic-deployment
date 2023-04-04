@@ -1,5 +1,5 @@
 <?php
-//ob_start();
+ob_start();
 session_start();
 include("dbh-inc.php");
 include("functions.php");
@@ -158,7 +158,7 @@ echo $output;
 
 <?php
 ob_start();
-session_start();
+//session_start();
 include("dbh-inc.php");
 //include("functions.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
