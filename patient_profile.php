@@ -250,6 +250,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	header("Refresh:0");
 
 }
+//header("Refresh:0");
+ob_flush();
 
 
 
