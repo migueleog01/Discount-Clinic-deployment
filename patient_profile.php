@@ -115,8 +115,16 @@ echo $output;
 	echo "Phone Number: " . $e_phone_number . "<br>";
 	echo "Relationship: " . $relationship . "<br>";
 	?>
+	Copy code
+	<?php
+	session_start();
+	if (!isset($_SESSION['csrf_token'])) {
+		$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+	}
+	?>
 	<h2>Edit Information</h2>
 	<form method="post" action="" onsubmit="window.location.reload()">
+		<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 		<label for="field">Select field to update:</label>
 		<select id="field" name="field">
 			<option value="first_name">First Name</option>
@@ -138,11 +146,9 @@ echo $output;
 		</select>
 		<label for="new_value">Enter new value:</label>
 		<input type="text" id="new_value" name="new_value">
-
 		<input type="submit" value="Update">
 	</form>
 
-	<!-- print out the value entered -->
 
 
 </body>
@@ -152,10 +158,14 @@ echo $output;
 
 <?php
 ob_start();
-//session_start();
+session_start();
 include("dbh-inc.php");
 //include("functions.php");
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		die('Invalid CSRF token');
+	}
+}
 //$user_data = check_login($conn);
 
 //$user_data = check_login($conn);
