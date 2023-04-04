@@ -173,7 +173,7 @@ session_start();
             <!--Patient Information Form-->
 <?php
     //ob_start();
-    //session_start();
+    session_start();
     
     
 
