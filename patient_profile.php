@@ -116,7 +116,6 @@ echo $output;
 	echo "Phone Number: " . $e_phone_number . "<br>";
 	echo "Relationship: " . $relationship . "<br>";
 	?>
-	Copy code
 	<?php
 	session_start();
 	if (!isset($_SESSION['csrf_token'])) {
