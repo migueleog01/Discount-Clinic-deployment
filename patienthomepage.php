@@ -135,14 +135,14 @@ $user_data = check_login($conn);
 				echo "</form>";
 			*/
 
-			echo "<form method='POST' action= 'patienthomepagetemp.php'>";
+			echo "<form method='POST' action= 'patienthomepage.php'>"; //THIS MADE IT WORK
 			//echo"<form method='POST' action= 'patienthomepage.php'>";
 
 			echo "<input type='hidden' name='appointment_id' value='" . $row['appointment_id'] . "'>";
 
 				// Add an if statement to check if the cancel button has been clicked
 				if (isset($_POST['cancel'])) {
-					header("refresh:0; url=patienthomepage.php");
+					header("refresh:0; url=patienthomepage.php"); //THIS MADE IT WORK
 					//header("refresh:0; url=patienthomepage.php");
 					// Execute the desired query
 					// For example:
@@ -157,7 +157,7 @@ $user_data = check_login($conn);
 					//echo "<p>Appointment cancelled successfully.</p>";
 					// Refresh the page
 					//header("Refresh:0;");
-					header("patienthomepagetemp.php");
+					header("patienthomepage.php"); //THIS MADE IT WORK
 					//header("refresh:0; url=patienthomepage.php");
 
 				} else {
