@@ -89,6 +89,7 @@ $user_data = check_login($conn);
 	</thead>
 	<tbody>
 		<?php
+		ob_start();
 		session_start();
 		if (!isset($_SESSION['csrf_token'])) {
 			$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
