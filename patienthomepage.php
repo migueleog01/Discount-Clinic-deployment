@@ -159,6 +159,8 @@ $user_data = check_login($conn);
 					// Display the success message
 					//echo "<p>Appointment cancelled successfully.</p>";
 					// Refresh the page
+					header("Location: " . $_SERVER['PHP_SELF']);
+					exit();
 					header("Refresh:0;");
 					header("patienthomepage.php");
 				} else {
