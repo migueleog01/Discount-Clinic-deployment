@@ -89,7 +89,7 @@ $user_data = check_login($conn);
 	</thead>
 	<tbody>
 		<?php
-
+		ob_start();
 
 		$TEST = $user_data['username'];
 		$query = "SELECT user_id FROM user WHERE username = '$TEST'";
