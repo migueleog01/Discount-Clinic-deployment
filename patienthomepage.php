@@ -135,15 +135,15 @@ $user_data = check_login($conn);
 				echo "</form>";
 			*/
 
-		//	// UNCOMMENT THISCecho "<form method='POST' action= 'patienthomepagetemp.php'>";
-			echo"<form method='POST' action= 'patienthomepage.php'>";
+			echo "<form method='POST' action= 'patienthomepagetemp.php'>";
+			//echo"<form method='POST' action= 'patienthomepage.php'>";
 
 			echo "<input type='hidden' name='appointment_id' value='" . $row['appointment_id'] . "'>";
 
 				// Add an if statement to check if the cancel button has been clicked
 				if (isset($_POST['cancel'])) {
-		//			//UNCOMMENT THIS header("refresh:0; url=patienthomepage.php");
 					header("refresh:0; url=patienthomepage.php");
+					//header("refresh:0; url=patienthomepage.php");
 					// Execute the desired query
 					// For example:
 					// $appointment_id = $_POST['appointment_id'];
@@ -157,8 +157,8 @@ $user_data = check_login($conn);
 					//echo "<p>Appointment cancelled successfully.</p>";
 					// Refresh the page
 					//header("Refresh:0;");
-		//			//UNCOMMENT THIS header("patienthomepagetemp.php");
-					header("refresh:0; url=patienthomepage.php");
+					header("patienthomepagetemp.php");
+					//header("refresh:0; url=patienthomepage.php");
 
 				} else {
 					// If the cancel button has not been clicked, display the cancel button
