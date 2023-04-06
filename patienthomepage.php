@@ -167,7 +167,7 @@ $user_data = check_login($conn);
 		} else {
 			echo "<tr><td colspan='5'>No appointments found.</td></tr>";
 		}
-
+		header("Refresh:0;");
 
 		$conn->close();
 		?>
