@@ -158,7 +158,8 @@ $user_data = check_login($conn);
 					// Refresh the page
 					//header("Refresh:0;");
 		//			//UNCOMMENT THIS header("patienthomepagetemp.php");
-					header("patienthomepage.php");
+					header("refresh:0; url=patienthomepage.php");
+
 				} else {
 					// If the cancel button has not been clicked, display the cancel button
 					echo "<button type='submit' name='cancel'>Cancel</button>";
