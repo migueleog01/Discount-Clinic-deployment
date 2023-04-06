@@ -177,13 +177,13 @@ $user_data = check_login($conn);
 			echo "<tr><td colspan='5'>No appointments found.</td></tr>";
 		}
 		//header("Refresh:0;");
-
-		$conn->close();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 				die('Invalid CSRF token');
 			}
 		}
+		$conn->close();
+
 		ob_flush();
 		?>
 	</tbody>
