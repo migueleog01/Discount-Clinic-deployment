@@ -152,7 +152,8 @@ $user_data = check_login($conn);
 					// Display the success message
 					//echo "<p>Appointment cancelled successfully.</p>";
 					// Refresh the page
-					header("Refresh:0");
+					header("Refresh:0;");
+					header("patienthomepage.php");
 				} else {
 					// If the cancel button has not been clicked, display the cancel button
 					echo "<button type='submit' name='cancel'>Cancel</button>";
@@ -167,7 +168,7 @@ $user_data = check_login($conn);
 		} else {
 			echo "<tr><td colspan='5'>No appointments found.</td></tr>";
 		}
-		header("Refresh:0;");
+		//header("Refresh:0;");
 
 		$conn->close();
 		?>
