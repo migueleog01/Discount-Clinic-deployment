@@ -171,6 +171,7 @@ $user_data = check_login($conn);
 		//header("Refresh:0;");
 
 		$conn->close();
+		ob_flush();
 		?>
 	</tbody>
 </table>
