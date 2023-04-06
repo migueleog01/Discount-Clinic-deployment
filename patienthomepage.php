@@ -135,8 +135,8 @@ $user_data = check_login($conn);
 				echo "</form>";
 			*/
 
-				echo "<form method='POST' action='" . $_SERVER['PHP_SELF'] . "'>";
-				echo "<input type='hidden' name='appointment_id' value='" . $row['appointment_id'] . "'>";
+			echo "<form method='POST' action='" . $_SERVER['PHP_SELF'] . "' onsubmit='window.location.reload()'>";
+			echo "<input type='hidden' name='appointment_id' value='" . $row['appointment_id'] . "'>";
 
 				// Add an if statement to check if the cancel button has been clicked
 				if (isset($_POST['cancel'])) {
