@@ -89,7 +89,13 @@ $user_data = check_login($conn);
 	</thead>
 	<tbody>
 		<?php
-		ob_start();
+		session_start();
+		if (!isset($_SESSION['csrf_token'])) {
+			$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+		}
+		?>
+		<?php
+		//ob_start();
 
 		$TEST = $user_data['username'];
 		$query = "SELECT user_id FROM user WHERE username = '$TEST'";
@@ -122,6 +128,7 @@ $user_data = check_login($conn);
 		if ($result->num_rows > 0) {
 			while ($row = $result->fetch_assoc()) {
 				echo "<tr>";
+
 				echo "<td>" . $row['appointment_id'] . "</td>";
 				echo "<td>" . $row['first_name'] . " " . $row['last_name'] . "</td>";
 				echo "<td>" . $row['date'] . "</td>";
@@ -134,10 +141,11 @@ $user_data = check_login($conn);
 				echo "<button type='submit'>Cancel</button>";
 				echo "</form>";
 			*/
-
+            echo "<input type='hidden' name='csrf_token' value='" . $_SESSION['csrf_token'] . "'>"; // Add this line
 			echo "<form method='POST' action='" . $_SERVER['PHP_SELF'] . "' onsubmit='if (event.submitter.name === \"cancel\") { location.reload(); }'>";
 			echo "<input type='hidden' name='appointment_id' value='" . $row['appointment_id'] . "'>";
 
+			
 				// Add an if statement to check if the cancel button has been clicked
 				if (isset($_POST['cancel'])) {
 					// Execute the desired query
@@ -171,6 +179,11 @@ $user_data = check_login($conn);
 		//header("Refresh:0;");
 
 		$conn->close();
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+				die('Invalid CSRF token');
+			}
+		}
 		ob_flush();
 		?>
 	</tbody>
