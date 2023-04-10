@@ -231,7 +231,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   }
             }
             catch (Exception $e) {
-              echo "must get approval";
               echo 'Caught exception: ',  $e->getMessage(), "\n";
               header("Location: doctors.php");
             }
