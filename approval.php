@@ -68,7 +68,7 @@ function approveAppointment(approval_id, doctor_id) {
 				<li class ="active"><a href="doctorhomepage.php">Home</a></li>
 				<li><a href="doctor_profile.php">Profile</a></li>
 				<li><a href="doctorappointments.php">Appointments</a></li>
-				<li><a href ="doctor_form.php">Doctor Form</a></li>
+                <li><a href="approval.php">Approval</a></li>
 				<li><a href="logout.php">Logout</a></li>
 			</ul>
 		</nav>
@@ -97,7 +97,7 @@ function approveAppointment(approval_id, doctor_id) {
 
 	  		
 	<?php
-
+        ob_start();
 	$user_data = check_login($conn);
 
 	$TEST = $user_data['username'];
@@ -159,7 +159,7 @@ WHERE appointment.doctor_id=approval.specialist_doctor_id AND office.address_id=
 			
 		}
 	}
-
+    ob_flush();
 	?>
 
 	  	</tbody>

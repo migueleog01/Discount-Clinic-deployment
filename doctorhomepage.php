@@ -20,8 +20,8 @@ session_start();
 		<nav>
 			<ul>
 				<li class ="active"><a href="doctorhomepage.php">Home</a></li>
+				<li><a href="doctor_profile.php">Profile</a></li>
 				<li><a href="doctorappointments.php">Appointments</a></li>
-				<li><a href="logout.php">Logout</a></li>
 
 	<?php
 	
@@ -43,6 +43,7 @@ session_start();
 		}
 	
 	?>
+			<li><a href="logout.php">Logout</a></li>
 
 			</ul>
 		</nav>
