@@ -1,9 +1,5 @@
-<?php
 
-ob_start();
-session_start();
 
-?>
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +13,7 @@ session_start();
             <li><a href="appointments.html">Appointments</a></li>
             <li><a href="transactions.html">Transactions</a></li>
             <li><a href="profile.html">Profile</a></li>
-            
+            <li><a href="doctors.php">Primary Doc</a></li>
           </ul>
         </nav>
       </header>
@@ -64,7 +60,7 @@ session_start();
       }
     }
     //alert(str);
-    xmlhttp.open("GET","other_helper.php?value="+str, true);
+    xmlhttp.open("GET","2nd_helper.php?value="+str, true);
     xmlhttp.send();
 
   }
@@ -74,7 +70,81 @@ session_start();
 <body>
 
 
+<?php
+ob_start();
+session_start();
 
+include("dbh-inc.php");
+include("functions.php");
+
+$user_data = check_login($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $date = $_POST['date'];
+        $date = date('Y-m-d', strtotime($date));
+        $time = $_POST['time'];
+        $time = date('H:i', strtotime($time));
+        $office_id = $_POST['office'];
+        $doctor_id = $_POST['doctor'];
+
+    $username = $user_data['username'];
+
+  $query = "SELECT user_id FROM user WHERE username = '$username'";
+  $result = mysqli_query($conn, $query);
+
+  if($result && mysqli_num_rows($result) > 0) {
+    $user_data = mysqli_fetch_assoc($result);
+    $user_id = $user_data['user_id'];
+  } else {
+  }
+
+  $query = "SELECT patient_id FROM patient WHERE user_id = '$user_id'";
+  $result = mysqli_query($conn, $query);
+
+  if($result && mysqli_num_rows($result) > 0) {
+    $patient_data = mysqli_fetch_assoc($result);
+    $patient_id = $patient_data['patient_id'];
+    
+    $sql = "INSERT INTO appointment (patient_id, doctor_id, office_id, time, date, deleted) VALUES ('$patient_id','$doctor_id','$office_id','$time','$date', 0)";
+    $other_sql = "INSERT INTO patient (doctor_id) WHERE patient.patient_id='$patient_id' VALUES ('$doctor_id')";
+            if (mysqli_query($conn, $sql) && mysqli_query($conn, $other_sql)) 
+            {
+                  $appointment_status = "SELECT * FROM approval WHERE specialist_doctor_id = '$doctor_id' AND patient_id = '$patient_id' AND approval_bool=1";
+                  //echo $sql_doctor;
+                  $result = mysqli_query($conn, $appointment_status);
+                  if ($result && mysqli_num_rows($result) > 0) 
+                  {
+                    echo "Thank you for scheduling your appointment!";
+                  } 
+                  else 
+                  {
+                        $sql_specialist = "SELECT * FROM doctor WHERE doctor_id = '$doctor_id' AND specialty <> 'primary'";
+                        $res = mysqli_query($conn, $sql_specialist);
+                        if ($res && mysqli_num_rows($res) > 0) 
+                        {
+                          echo "You need approval from a GP.";
+                        }
+                        
+                        else 
+                        {
+                          echo "Thank you for scheduling your appointment!";
+                        }
+
+                  }
+            }
+            else 
+            {
+              echo "You need approval from a GP.";
+            }
+  } 
+  else {
+    echo "Patient not found";
+  }
+} 
+
+
+?>
 
 	<div class="container">
 		<h2>Appointment Form</h2>
@@ -165,82 +235,3 @@ session_start();
 	</div>
 </body>
 </html>
-
-
-<?php
-
-
-include("dbh-inc.php");
-include("functions.php");
-
-$user_data = check_login($conn);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        $date = $_POST['date'];
-        $date = date('Y-m-d', strtotime($date));
-        $time = $_POST['time'];
-        $time = date('H:i', strtotime($time));
-        $office_id = $_POST['office'];
-        $doctor_id = $_POST['doctor'];
-
-    $username = $user_data['username'];
-
-  $query = "SELECT user_id FROM user WHERE username = '$username'";
-  $result = mysqli_query($conn, $query);
-
-  if($result && mysqli_num_rows($result) > 0) {
-    $user_data = mysqli_fetch_assoc($result);
-    $user_id = $user_data['user_id'];
-  } else {
-  }
-
-  $query = "SELECT patient_id FROM patient WHERE user_id = '$user_id'";
-  $result = mysqli_query($conn, $query);
-
-  if($result && mysqli_num_rows($result) > 0) {
-    $patient_data = mysqli_fetch_assoc($result);
-    $patient_id = $patient_data['patient_id'];
-    
-    $sql = "INSERT INTO appointment (patient_id, doctor_id, office_id, time, date, deleted) VALUES ('$patient_id','$doctor_id','$office_id','$time','$date', 0)";
-            try
-            {
-              mysqli_query($conn, $sql);
-                  $appointment_status = "SELECT * FROM approval WHERE specialist_doctor_id = '$doctor_id' AND patient_id = '$patient_id' AND approval_bool=1";
-                  //echo $sql_doctor;
-                  $result = mysqli_query($conn, $appointment_status);
-                  if ($result && mysqli_num_rows($result) > 0) 
-                  {
-                    echo "Thank you for scheduling your appointment!";
-                  } 
-                  else 
-                  {
-                        $sql_specialist = "SELECT * FROM doctor WHERE doctor_id = '$doctor_id' AND specialty <> 'primary'";
-                        $res = mysqli_query($conn, $sql_specialist);
-                        if ($res && mysqli_num_rows($res) > 0) 
-                        {
-                          header("Location: doctors.php");
-                          echo "You need approval from a GP.";
-                        }
-                        
-                        else 
-                        {
-                          echo "Thank you for scheduling your appointment!";
-                        }
-
-                  }
-            }
-            catch (Exception $e) {
-              echo 'Caught exception: ',  $e->getMessage(), "\n";
-              header("Location: doctors.php");
-            }
-
-
-  } 
-  else {
-    echo "Patient not found";
-  }
-} 
-
-
-?>

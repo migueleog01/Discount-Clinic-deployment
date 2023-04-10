@@ -13,7 +13,7 @@ $val_M = mysqli_real_escape_string($conn, $val);
 mb_detect_encoding($val_M);
 
 $sql = "SELECT doctor_id, first_name, middle_initial, last_name, phone_number, gender, specialty FROM doctor, doctor_office
-WHERE doctor_id = DID AND doctor_office.OID = '$val_M';";
+WHERE doctor_id = DID AND doctor_office.OID = '$val_M'";
 
 $result = mysqli_query($conn, $sql);
 
