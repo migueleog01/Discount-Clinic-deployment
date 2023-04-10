@@ -1,4 +1,5 @@
 <?php
+    ob_start();
 	session_start();
 	include("dbh-inc.php");
     include("functions.php");
@@ -120,6 +121,14 @@
 <?php	
 	ob_start();
 	include("dbh-inc.php");
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die('Invalid CSRF token');
+        }
+    }
+
+
 	$user_data = check_login($conn);
 	$user_id_fk = $user_data['user_ID'];
 
