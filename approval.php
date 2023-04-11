@@ -68,7 +68,7 @@ function approveAppointment(approval_id, doctor_id) {
 				<li class ="active"><a href="doctorhomepage.php">Home</a></li>
 				<li><a href="doctor_profile.php">Profile</a></li>
 				<li><a href="doctorappointments.php">Appointments</a></li>
-                <li><a href="approval.php">Approval</a></li>
+				<li><a href ="doctor_form.php">Doctor Form</a></li>
 				<li><a href="logout.php">Logout</a></li>
 			</ul>
 		</nav>
@@ -97,7 +97,7 @@ function approveAppointment(approval_id, doctor_id) {
 
 	  		
 	<?php
-        ob_start();
+
 	$user_data = check_login($conn);
 
 	$TEST = $user_data['username'];
@@ -116,9 +116,8 @@ function approveAppointment(approval_id, doctor_id) {
 		$doctor_id = $doctor_data['doctor_id'];
 	}
 
-	$sql = "SELECT DISTINCT patient.patient_id FROM discount_clinic.appointment, discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.patient WHERE doctor.doctor_id = '$doctor_id' AND office.address_id = address.address_id AND appointment.office_id = office.office_id AND appointment.doctor_id = doctor.doctor_id AND patient.patient_id = appointment.patient_id";
+	$sql = "SELECT DISTINCT patient.patient_id FROM discount_clinic.appointment, discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.patient WHERE doctor.doctor_id = '$doctor_id' AND patient.primary_doctor_id='$doctor_id' AND doctor.doctor_id=patient.primary_doctor_id";
 	$result = $conn->query($sql);
-
 
 	// this gives the unique patient_ids associated w/ this doctor
 	if ($result->num_rows > 0) {
@@ -129,7 +128,7 @@ function approveAppointment(approval_id, doctor_id) {
 
 			$awaiting_approval = "SELECT appointment.*, office.*, doctor.first_name AS doctor_first_name, doctor.last_name AS doctor_last_name, patient.first_name AS patient_first_name, patient.last_name AS patient_last_name, approval.*, address.* 
 FROM discount_clinic.appointment, discount_clinic.office, discount_clinic.doctor, discount_clinic.patient, discount_clinic.approval, discount_clinic.address 
-WHERE appointment.doctor_id=approval.specialist_doctor_id AND office.address_id=address.address_id AND appointment.patient_id=approval.patient_id AND patient.patient_id='$specific_patient' AND patient.patient_id=appointment.patient_id AND appointment.office_id=office.office_id AND appointment.doctor_id=doctor.doctor_id AND approval.patient_id=patient.patient_id AND doctor.specialty<>'primary'";
+WHERE appointment.doctor_id=approval.specialist_doctor_id AND office.address_id=address.address_id AND appointment.patient_id=approval.patient_id AND patient.patient_id='$specific_patient' AND patient.patient_id=appointment.patient_id AND appointment.office_id=office.office_id AND appointment.doctor_id=doctor.doctor_id AND approval.patient_id=patient.patient_id AND doctor.specialty<>'primary' AND patient.primary_doctor_id='$doctor_id'";
 
 
 			$res = $conn->query($awaiting_approval);
@@ -159,7 +158,7 @@ WHERE appointment.doctor_id=approval.specialist_doctor_id AND office.address_id=
 			
 		}
 	}
-    ob_flush();
+
 	?>
 
 	  	</tbody>
