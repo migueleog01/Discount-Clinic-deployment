@@ -1,8 +1,4 @@
-<?php
-ob_start();
-session_start();
-
-?>
+<!--Patient Information Form-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -170,12 +166,9 @@ session_start();
         <button type="submit" value="Submit">Submit</button>
 
         <form>
-            <!--Patient Information Form-->
-<?php
-    //ob_start();
-    //session_start();
-    
-    
+                <?php
+    ob_start();
+    session_start();
 
 
     include("dbh-inc.php");
@@ -214,7 +207,7 @@ session_start();
 
         $allergies = $_POST['allergies'];
 
-        $emergencyMiddleInitial =  ' ';
+        $emergencyMiddleInitial =  'D';
 
 
 
@@ -293,9 +286,7 @@ session_start();
     //ob_end_flush();
     ?>
 
-
 </body>
-
 
 
 </html>

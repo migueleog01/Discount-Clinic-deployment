@@ -10,7 +10,7 @@
         <nav>
           <ul>
             <li><a href="patienthomepage.php">Home</a></li>
-            <li><a href="appointments.html">Appointments</a></li>
+            <!--<li><a href="appointments.html">Appointments</a></li>-->
             <li><a href="transactions.html">Transactions</a></li>
             <li><a href="profile.html">Profile</a></li>
             

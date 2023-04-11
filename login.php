@@ -123,7 +123,7 @@ session_start();
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: black;text-align: center;"><strong>Login</strong></div>
 			<div id="input-div">
-			<input id="text" type="text" name="role" placeholder="Role (doctor, patient)"><br><br>
+			<input id="text" type="text" name="role" placeholder="Role (admin, doctor, patient)"><br><br>
 
 			<input id="text" type="text" name="username" placeholder="Username"><br><br>
 			<input id="text" type="password" name="password" placeholder="Password"><br><br>
