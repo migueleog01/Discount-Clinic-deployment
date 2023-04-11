@@ -19,8 +19,8 @@
       </header>
 <head>
 
-  <title>Appointment Making System</title>
-  <link rel="stylesheet" href="patient_appointments_style.css">
+	<title>Appointment Making System</title>
+	<link rel="stylesheet" href="patient_appointments_style.css">
 </head>
 
   <script src="patient_appointments_script.js" defer></script>
@@ -72,9 +72,9 @@
 
 
 
-  <div class="container">
-    <h2>Appointment Form</h2>
-    <form action="#" method="POST">
+	<div class="container">
+		<h2>Appointment Form</h2>
+		<form action="#" method="POST">
 
 
       <label for="date">Date:</label>
@@ -87,7 +87,7 @@
 
 
         <label for="state">Select a State:</label>
-        <select id="state" name="state" onchange="my_fun(this.value);">
+				<select id="state" name="state" onchange="my_fun(this.value);">
 
             <option value=""></option>
             <option value="AL">Alabama</option>
@@ -144,9 +144,9 @@
         </select>
 
           <label for="office">Select an Office:</label>
-          <select id="office" name="office" onchange="my_other_fun(this.value);">
-            <option value="">Select location</option>
-          </select>
+					<select id="office" name="office" onchange="my_other_fun(this.value);">
+						<option value="">Select location</option>
+					</select>
 
           <label for="doctor">Select a Doctor:</label>
           <select id="doctor" name="doctor" required>
@@ -156,14 +156,11 @@
           <div></div>
 
 
-      <button type="submit" value = "Submit" id="submitBtn">Submit</button>
-    </form>
-  </div>
+			<button type="submit" value = "Submit" id="submitBtn">Submit</button>
+		</form>
+	</div>
 </body>
-</html>
-
-
-
+<tbody>
 <?php
 ob_start();
 session_start();
@@ -217,6 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $res = mysqli_query($conn, $sql_specialist);
                         if ($res && mysqli_num_rows($res) > 0) 
                         {
+                          header("Location: doctors.php");
                           echo "You need approval from a GP.";
                         }
                         
@@ -229,6 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             catch (Exception $e) {
               echo 'Caught exception: ',  $e->getMessage(), "\n";
+              header("Location: doctors.php");
             }
 
 
@@ -240,3 +239,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 ?>
+</tbody>
+</html>
