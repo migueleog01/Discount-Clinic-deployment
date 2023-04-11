@@ -13,7 +13,7 @@
             <!--<li><a href="appointments.html">Appointments</a></li>-->
             <li><a href="transactions.html">Transactions</a></li>
             <li><a href="profile.html">Profile</a></li>
-            
+            <li><a href="doctors.php">Primary Doc</a></li>
           </ul>
         </nav>
       </header>
@@ -60,7 +60,7 @@
       }
     }
     //alert(str);
-    xmlhttp.open("GET","other_helper.php?value="+str, true);
+    xmlhttp.open("GET","2nd_helper.php?value="+str, true);
     xmlhttp.send();
 
   }
@@ -107,9 +107,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $patient_id = $patient_data['patient_id'];
     
     $sql = "INSERT INTO appointment (patient_id, doctor_id, office_id, time, date, deleted) VALUES ('$patient_id','$doctor_id','$office_id','$time','$date', 0)";
-            try
+    $other_sql = "INSERT INTO patient (doctor_id) WHERE patient.patient_id='$patient_id' VALUES ('$doctor_id')";
+            if (mysqli_query($conn, $sql) && mysqli_query($conn, $other_sql)) 
             {
-              mysqli_query($conn, $sql);
                   $appointment_status = "SELECT * FROM approval WHERE specialist_doctor_id = '$doctor_id' AND patient_id = '$patient_id' AND approval_bool=1";
                   //echo $sql_doctor;
                   $result = mysqli_query($conn, $appointment_status);
@@ -123,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $res = mysqli_query($conn, $sql_specialist);
                         if ($res && mysqli_num_rows($res) > 0) 
                         {
-                          header("Location: doctors.php");
                           echo "You need approval from a GP.";
                         }
                         
@@ -134,12 +133,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                   }
             }
-            catch (Exception $e) {
-              echo 'Caught exception: ',  $e->getMessage(), "\n";
-              header("Location: doctors.php");
+            else 
+            {
+              echo "You need approval from a GP.";
             }
-
-
   } 
   else {
     echo "Patient not found";

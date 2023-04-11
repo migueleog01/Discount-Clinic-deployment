@@ -9,18 +9,18 @@
         </div>
         <nav>
           <ul>
-                <li class ="active"><a href="index.php">Home</a></li>
-                <li><a href="patient_profile.php">Profile</a></li>
-                <li><a href="patientappointments.php">Schedule Appointment</a></li>
-                <li><a href="transactions.php">Transactions</a></li>
-                <li><a href="logout.php">Logout</a></li>
+            <li><a href="patienthomepage.php">Home</a></li>
+            <li><a href="appointments.html">Appointments</a></li>
+            <li><a href="transactions.html">Transactions</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            
           </ul>
         </nav>
       </header>
 <head>
 
-	<title>Appointment Making System</title>
-	<link rel="stylesheet" href="patient_appointments_style.css">
+  <title>Appointment Making System</title>
+  <link rel="stylesheet" href="patient_appointments_style.css">
 </head>
 
   <script src="patient_appointments_script.js" defer></script>
@@ -147,9 +147,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 
-	<div class="container">
-		<h2>Appointment Form</h2>
-		<form action="#" method="POST">
+  <div class="container">
+    <h2>Appointment Form</h2>
+    <form action="#" method="POST">
 
 
       <label for="date">Date:</label>
@@ -162,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         <label for="state">Select a State:</label>
-				<select id="state" name="state" onchange="my_fun(this.value);">
+        <select id="state" name="state" onchange="my_fun(this.value);">
 
             <option value=""></option>
             <option value="AL">Alabama</option>
@@ -219,9 +219,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </select>
 
           <label for="office">Select an Office:</label>
-					<select id="office" name="office" onchange="my_other_fun(this.value);">
-						<option value="">Select location</option>
-					</select>
+          <select id="office" name="office" onchange="my_other_fun(this.value);">
+            <option value="">Select location</option>
+          </select>
 
           <label for="doctor">Select a Doctor:</label>
           <select id="doctor" name="doctor" required>
@@ -231,8 +231,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div></div>
 
 
-			<button type="submit" value = "Submit" id="submitBtn">Submit</button>
-		</form>
-	</div>
+      <button type="submit" value = "Submit" id="submitBtn">Submit</button>
+    </form>
+  </div>
 </body>
 </html>
