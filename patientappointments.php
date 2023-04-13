@@ -74,7 +74,7 @@
 
 	<div class="container">
 		<h2>Appointment Form</h2>
-		<form action="#" method="POST">
+		<form action="" method="POST">
 
 
       <label for="date">Date:</label>
