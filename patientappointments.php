@@ -151,11 +151,13 @@
           </select>
   
 
-         
-
-
+      
       <button type="submit" value = "Submit" id="submitBtn">Submit</button>
-      <?php
+      
+    </form>
+  </div>
+</body>
+<?php
       ob_start();
       session_start();
 
@@ -231,7 +233,4 @@
 
 
       ?>
-    </form>
-  </div>
-</body>
 </html>
