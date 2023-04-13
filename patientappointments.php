@@ -77,7 +77,7 @@ session_start();
 
 	<div class="container">
 		<h2>Appointment Form</h2>
-		<form action="#" method="post">
+		<form action="patientappointments.php" method="post">
 
 
       <label for="date">Date:</label>
