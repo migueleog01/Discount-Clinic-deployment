@@ -1,7 +1,7 @@
 
 
 <?php
-ob_start();
+//ob_start();
 ?>
 <!DOCTYPE html>
 <html>
