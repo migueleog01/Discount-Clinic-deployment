@@ -1,5 +1,8 @@
 
-
+<?php
+ob_start();
+session_start();
+?>
 
 <!DOCTYPE html>
 <html>
@@ -162,8 +165,8 @@
 </body>
 <tbody>
 <?php
-ob_start();
-session_start();
+//ob_start();
+//session_start();
 
 include("dbh-inc.php");
 include("functions.php");
