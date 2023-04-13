@@ -162,8 +162,8 @@
   </div>
 </body>
 <?php
-      //ob_start();
-      //session_start();
+      ob_start();
+      session_start();
 
       include("dbh-inc.php");
       include("functions.php");
@@ -171,7 +171,7 @@
       $user_data = check_login($conn);
 
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-              echo "hello";
+              //echo "hello";
               $date = $_POST['date'];
               $date = date('Y-m-d', strtotime($date));
               $time = $_POST['time'];
