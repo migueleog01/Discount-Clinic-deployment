@@ -165,7 +165,7 @@ session_start();
 </body>
 <tbody>
 <?php
-//ob_start();
+ob_start();
 //session_start();
 
 include("dbh-inc.php");
