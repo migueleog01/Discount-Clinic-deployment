@@ -167,7 +167,7 @@
       $user_data = check_login($conn);
 
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+              echo "hello";
               $date = $_POST['date'];
               $date = date('Y-m-d', strtotime($date));
               $time = $_POST['time'];
