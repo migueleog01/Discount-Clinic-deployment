@@ -76,7 +76,7 @@ ob_start();
 
 	<div class="container">
 		<h2>Appointment Form</h2>
-		<form action="" method="post">
+		<form action="#" method="post">
 
 
       <label for="date">Date:</label>
