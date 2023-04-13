@@ -1,3 +1,7 @@
+<?php
+  ob_start();
+  session_start();
+?>
 <!DOCTYPE html>
 <html>
     <header>
@@ -71,7 +75,7 @@
 
   <div class="container">
     <h2>Appointment Form</h2>
-    <form action="" method="POST">
+    <form action="" method="post">
 
 
       <label for="date">Date:</label>
@@ -158,8 +162,8 @@
   </div>
 </body>
 <?php
-      ob_start();
-      session_start();
+      //ob_start();
+      //session_start();
 
       include("dbh-inc.php");
       include("functions.php");
