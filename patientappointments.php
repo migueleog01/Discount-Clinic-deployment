@@ -234,7 +234,8 @@
           echo "Patient not found";
         }
       } 
-
+      mysqli_close($conn);
+      ob_end_flush();
 
       ?>
 </html>
