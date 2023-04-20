@@ -106,9 +106,15 @@ include("functions.php");
         <label for="gender" id="gender-label" style="display: none;">Gender:</label>
         <select id="gender" name="gender" style="display: none;" required>
             <option value="all">All</option>
-            <option value="M">M</option>
-            <option value="F">F</option>
-            <option value="O">O</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+        </select>
+        <label for="doctor_type" id="doctor-type-label" style="display: none;">Doctor Type:</label>
+        <select id="doctor_type" name="doctor_type" style="display: none;" required>
+            <option value="all">All</option>
+            <option value="primary">Primary</option>
+            <option value="specialist">Specialist</option>
         </select>
 
         <input type="submit" value="Submit">
@@ -127,6 +133,8 @@ include("functions.php");
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "none";
                 document.getElementById("gender").style.display = "none";
+                document.getElementById("doctor-type-label").style.display = "inline";
+                document.getElementById("doctor_type").style.display = "inline";
             }
         });
     </script>
@@ -239,9 +247,18 @@ if (isset($_POST['report_type'])) {
     } else if ($report_type === 'doctors') {
         // ... (Your existing PHP code to display the doctors table)
         $office_id = $_POST['office_id'];
+        $doctor_type = $_POST['doctor_type'];
+
+        // Update the doctor query based on the selected doctor type
+        $doctor_type_condition = "";
+        if ($doctor_type === 'primary') {
+            $doctor_type_condition = "AND doctor.specialty = 'Primary'";
+        } elseif ($doctor_type === 'specialist') {
+            $doctor_type_condition = "AND doctor.specialty != 'Primary'";
+        }
 
         $doctor_query = "SELECT DISTINCT doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number
-                            FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id";
+                        FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition";
 
         $doctor_result = $conn->query($doctor_query);
 
