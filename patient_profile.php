@@ -94,7 +94,30 @@ if ($patient_result && mysqli_num_rows($patient_result) > 0) {
 			padding: 20px;
 		}
 	</style>
+	<script>
+		function updateFieldOptions() {
+			const field = document.getElementById('field');
+			const newInput = document.getElementById('new_value');
+			const selected = field.options[field.selectedIndex].value;
+
+			if (selected === 'gender') {
+				newInput.outerHTML = `
+            <select id="new_value" name="new_value">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            </select>`;
+			} else {
+				const input = document.createElement('input');
+				input.type = 'text';
+				input.id = 'new_value';
+				input.name = 'new_value';
+				newInput.outerHTML = input.outerHTML;
+			}
+		}
+	</script>
 </head>
+
 <body>
 	<h2>Personal Information</h2>
 	<?php
@@ -114,10 +137,10 @@ if ($patient_result && mysqli_num_rows($patient_result) > 0) {
 	echo "Relationship: " . $relationship . "<br>";
 	?>
 	<h2>Primary Doctor Information</h2>
-	<?php	
-		echo "Primary Doctor Name: " . $doctor_first_name . " " . $doctor_mi . " " . $doctor_last_name . "<br>";
-		echo "Phone Number: " . $doctor_phone_number . "<br>";
-		echo "Specialty: " . $specialty . "<br>";
+	<?php
+	echo "Primary Doctor Name: " . $doctor_first_name . " " . $doctor_mi . " " . $doctor_last_name . "<br>";
+	echo "Phone Number: " . $doctor_phone_number . "<br>";
+	echo "Specialty: " . $specialty . "<br>";
 	?>
 	<?php
 	if (!isset($_SESSION['csrf_token'])) {
@@ -128,7 +151,7 @@ if ($patient_result && mysqli_num_rows($patient_result) > 0) {
 	<form method="post" action="" onsubmit="window.location.reload()">
 		<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 		<label for="field">Select field to update:</label>
-		<select id="field" name="field">
+		<select id="field" name="field" onchange="updateFieldOptions()">
 			<option value="first_name">First Name</option>
 			<option value="middle_initial">Middle Initial</option>
 			<option value="last_name">Last Name</option>
@@ -150,6 +173,7 @@ if ($patient_result && mysqli_num_rows($patient_result) > 0) {
 		<input type="submit" value="Update">
 	</form>
 </body>
+
 </html>
 
 
@@ -296,7 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-		//edit emergency last name
+			//edit emergency last name
 		case "e_last_name":
 			$sql = "UPDATE emergency_contact SET e_last_name = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
 			if (mysqli_query($conn, $sql)) {
@@ -306,7 +330,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				echo "Error updating record: " . mysqli_error($conn);
 			}
 			break;
-					//edit emergency phone number
+			//edit emergency phone number
 		case "ec_phone_number":
 			$sql = "UPDATE emergency_contact SET phone_number = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
 			if (mysqli_query($conn, $sql)) {
@@ -316,7 +340,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				echo "Error updating record: " . mysqli_error($conn);
 			}
 			break;
-		
+
 			//edit relationship from emergency contact
 		case "relationship":
 			$sql = "UPDATE emergency_contact SET relationship = '$_POST[new_value]' WHERE patient_id = '$patient_id_fk'";
