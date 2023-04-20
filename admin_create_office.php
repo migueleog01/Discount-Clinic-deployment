@@ -1,6 +1,6 @@
 <?php
-ob_start();
-session_start();
+    ob_start();
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +20,9 @@ session_start();
                 <li class ="active"><a href="adminhomepage.php">Home</a></li>
                 <li><a href="admin_create_doctor.php">Create Doctor</a></li>
                 <li><a href="admin_create_office.php">Create Office</a></li>
+                <li><a href="admin_delete_patient.php">Delete Patient</a></li>
+                <li><a href="admin_delete_doctor.php">Delete Doctor</a></li>
+                <li><a href="admin_delete_office.php">Delete Office</a></li>
 				<li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
@@ -136,21 +139,25 @@ session_start();
         $zip = $_POST['zip'];
     
 
-
-        $sql_office = "INSERT INTO discount_clinic.address (`street_address`,`city`,`state`,`zip`,`deleted`) VALUES
-        ('$street_address','$city', '$state', '$zip', 0)";
-        mysqli_query($conn, $sql_office);
-
-
-        $new_address_id_sql = "SELECT address_id FROM discount_clinic.address WHERE address.street_address = '$street_address' AND address.city = '$city' AND address.state = '$state' AND address.zip = '$zip'";
-        $new_address_id_res = mysqli_query($conn, $new_address_id_sql);
-        $new_address_id_row = mysqli_fetch_assoc($new_address_id_res);
-        $new_address_id = $new_address_id_row['address_id'];
+        if(ctype_alnum(str_replace(' ', '', $street_address)) && ctype_alpha(str_replace(' ', '', $city)) && ctype_alpha($state) && ctype_digit($zip)) {
+            $sql_office = "INSERT INTO discount_clinic.address (`street_address`,`city`,`state`,`zip`,`deleted`) VALUES
+            ('$street_address','$city', '$state', '$zip', 0)";
+            mysqli_query($conn, $sql_office);
 
 
-        $new_office_sql = "INSERT INTO discount_clinic.office (address_id, deleted) VALUES 
-        ($new_address_id, 0)";
-        mysqli_query($conn, $new_office_sql);
+            $new_address_id_sql = "SELECT address_id FROM discount_clinic.address WHERE address.street_address = '$street_address' AND address.city = '$city' AND address.state = '$state' AND address.zip = '$zip'";
+            $new_address_id_res = mysqli_query($conn, $new_address_id_sql);
+            $new_address_id_row = mysqli_fetch_assoc($new_address_id_res);
+            $new_address_id = $new_address_id_row['address_id'];
+
+
+            $new_office_sql = "INSERT INTO discount_clinic.office (address_id, deleted) VALUES 
+            ($new_address_id, 0)";
+            mysqli_query($conn, $new_office_sql);
+            echo "Office added successfully";
+        } else {
+            echo "Invalid input";
+        }
         mysqli_close($conn);
     }
 ?>
