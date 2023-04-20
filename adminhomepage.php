@@ -102,14 +102,31 @@ include("functions.php");
             <label for="end_date">End Date:</label>
             <input type="date" id="end_date" name="end_date" value="<?php echo $end_date; ?>">
         </div>
+
+        <label for="gender" id="gender-label" style="display: none;">Gender:</label>
+        <select id="gender" name="gender" style="display: none;" required>
+            <option value="all">All</option>
+            <option value="M">M</option>
+            <option value="F">F</option>
+            <option value="O">O</option>
+        </select>
+
         <input type="submit" value="Submit">
     </form>
     <script>
         document.getElementById("report_type").addEventListener("change", function() {
             if (this.value === "appointments") {
                 document.getElementById("date-range").style.display = "block";
+                document.getElementById("gender-label").style.display = "none";
+                document.getElementById("gender").style.display = "none";
+            } else if (this.value === "patients") {
+                document.getElementById("date-range").style.display = "none";
+                document.getElementById("gender-label").style.display = "inline";
+                document.getElementById("gender").style.display = "inline";
             } else {
                 document.getElementById("date-range").style.display = "none";
+                document.getElementById("gender-label").style.display = "none";
+                document.getElementById("gender").style.display = "none";
             }
         });
     </script>
@@ -122,7 +139,7 @@ include("functions.php");
 
 if (isset($_POST['report_type'])) {
     $report_type = $_POST['report_type'];
-    
+
     if ($report_type === 'appointments') {
         $office_id = $_POST['office_id'];
 
@@ -152,10 +169,10 @@ if (isset($_POST['report_type'])) {
         echo "</tr>";
         echo '</thead>';
         echo '<tbody>';
-        
 
-        
-        
+
+
+
 
         if ($address_result->num_rows > 0) {
             while ($row = $address_result->fetch_assoc()) {
@@ -171,16 +188,22 @@ if (isset($_POST['report_type'])) {
             echo "<tr><td colspan='5'>No appointments found.</td></tr>";
         }
     }
-    
+
     //else {
-        //echo "<tr><td colspan='5'>No appointments found.</td></tr>";
+    //echo "<tr><td colspan='5'>No appointments found.</td></tr>";
     //}
 
     // ... (Your existing PHP code to display the appointments table)
-       else  if ($report_type === 'patients') {
+    else  if ($report_type === 'patients') {
         $office_id = $_POST['office_id'];
+        $gender = $_POST['gender'];
+        //$patient_query = "SELECT DISTINCT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
+        // FROM discount_clinic.office, discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.appointment, discount_clinic.address WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id";
         $patient_query = "SELECT DISTINCT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
-                            FROM discount_clinic.office, discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.appointment, discount_clinic.address WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id";
+                           FROM discount_clinic.office, discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.appointment, discount_clinic.address WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id";
+        if ($gender !== 'all') {
+            $patient_query .= " AND patient.gender = '$gender'";
+        }
         $patient_result = $conn->query($patient_query);
 
         echo '<table>';
@@ -207,50 +230,49 @@ if (isset($_POST['report_type'])) {
                 echo "<td>" . $row['e_phone_number'] . "</td>";
                 echo "</tr>";
             }
-        } 
+        }
 
         echo '</tbody>';
         echo '</table>';
         // ... (Your existing PHP code to display the patients table)
 
-        }
-        else if ($report_type === 'doctors') {
-            // ... (Your existing PHP code to display the doctors table)
-            $office_id = $_POST['office_id'];
-        
-            $doctor_query = "SELECT DISTINCT doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number
-                            FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id";
-        
-            $doctor_result = $conn->query($doctor_query);
+    } else if ($report_type === 'doctors') {
+        // ... (Your existing PHP code to display the doctors table)
+        $office_id = $_POST['office_id'];
 
-            echo '<table>';
-            echo '<thead>';
-            echo '<tr>';
-            echo '<th>Doctor ID</th>';
-            echo '<th>Name</th>';
-            echo '<th>Specialty</th>';
-            echo '<th>DOB</th>';
-            echo '<th>Gender</th>';
-            echo '<th>Phone</th>';
-            echo '</tr>';
-            echo '</thead>';
-            echo '<tbody>';
-        
-            if ($doctor_result->num_rows > 0) {
-                while ($row = $doctor_result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row['doctor_id'] . "</td>";
-                    echo "<td>" . $row['first_name'] . " " . $row['middle_initial'] . " " . $row['last_name'] . "</td>";
-                    echo "<td>" . $row['specialty'] . "</td>";
-                    echo "<td>" . $row['DOB'] . "</td>";
-                    echo "<td>" . $row['gender'] . "</td>";
-                    echo "<td>" . $row['phone_number'] . "</td>";
-                }
-            } else {
-                echo "<tr><td colspan='6'>No doctors found.</td></tr>";
+        $doctor_query = "SELECT DISTINCT doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number
+                            FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id";
+
+        $doctor_result = $conn->query($doctor_query);
+
+        echo '<table>';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>Doctor ID</th>';
+        echo '<th>Name</th>';
+        echo '<th>Specialty</th>';
+        echo '<th>DOB</th>';
+        echo '<th>Gender</th>';
+        echo '<th>Phone</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+
+        if ($doctor_result->num_rows > 0) {
+            while ($row = $doctor_result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['doctor_id'] . "</td>";
+                echo "<td>" . $row['first_name'] . " " . $row['middle_initial'] . " " . $row['last_name'] . "</td>";
+                echo "<td>" . $row['specialty'] . "</td>";
+                echo "<td>" . $row['DOB'] . "</td>";
+                echo "<td>" . $row['gender'] . "</td>";
+                echo "<td>" . $row['phone_number'] . "</td>";
             }
+        } else {
+            echo "<tr><td colspan='6'>No doctors found.</td></tr>";
         }
     }
+}
 
 
 
