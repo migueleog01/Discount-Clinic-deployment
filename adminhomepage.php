@@ -61,6 +61,7 @@
         <select id="address_id" name="address_id" required>
         <option value=""></option>
             <?php 
+                ob_start();
                 $office_address_query = "SELECT * 
                 FROM discount_clinic.office, discount_clinic.address
                 WHERE office.address_id = address.address_id";
@@ -136,6 +137,7 @@
         </thead>
         <tbody>
             <?php 
+                ob_start();
                 $patient_query = "SELECT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
                     FROM discount_clinic.office, discount_clinic.address, discount_clinic.patient, discount_clinic.emergency_contact
                     WHERE office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id AND address.address_id = '$address_id'";
@@ -199,6 +201,7 @@
 
 
 <?php
+    ob_start();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $address_id = $_POST['address_id'];
         $address_query = "SELECT *
