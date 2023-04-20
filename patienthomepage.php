@@ -13,6 +13,7 @@ $user_data = check_login($conn);
 
 <head>
   <title>Medical Clinic Home Page</title>
+  
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <style>
@@ -61,7 +62,8 @@ $user_data = check_login($conn);
   </header>
   <main>
     <h2>
-      <center>Welcome, <?php echo $user_data['username']; ?></center>
+    
+      <center>Welcome <?php  echo "Patient" ?>, <?php echo $user_data['username']; ?></center>
     </h2>
     <h4>About Us</h4>
     <p>Our clinic provides high-quality medical services to patients of all ages at a minimal cost. We have a team of experienced doctors who are dedicated to your health and well-being. Book an appointment at your convenience at one of our various offices across the nation. </p>

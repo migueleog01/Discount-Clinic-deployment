@@ -11,11 +11,13 @@ session_start();
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		//something was posted
-		$role = $_POST['role'];
+		//$role = $_POST['role'];
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 
-		if(!empty($role) && !empty($username) && !empty($password) && !is_numeric($username))
+		//if(!empty($role) && !empty($username) && !empty($password) && !is_numeric($username))
+		if( !empty($username) && !empty($password) && !is_numeric($username))
+
 		{
 
 			$query = "SELECT * FROM user WHERE username = '$username' LIMIT 1";
@@ -26,7 +28,7 @@ session_start();
 				if($result && mysqli_num_rows($result) > 0)
 				{
 					$user_data = mysqli_fetch_assoc($result);
-					if($user_data['password'] === $password && $user_data['role'] === $role)
+					if($user_data['password'] === $password /*&& $user_data['role'] === $role*/)
 					{
 						$_SESSION['username'] = $user_data['username'];
 						header("Location: index.php");
@@ -123,7 +125,7 @@ session_start();
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: black;text-align: center;"><strong>Login</strong></div>
 			<div id="input-div">
-			<input id="text" type="text" name="role" placeholder="Role (admin, doctor, patient)"><br><br>
+			<!-- <input id="text" type="text" name="role" placeholder="Role (admin, doctor, patient)"><br><br> -->
 
 			<input id="text" type="text" name="username" placeholder="Username"><br><br>
 			<input id="text" type="password" name="password" placeholder="Password"><br><br>
