@@ -138,7 +138,7 @@
         </thead>
         <tbody>
             <?php 
-            
+            /*
                 ob_start();
                 $patient_query = "SELECT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
                     FROM discount_clinic.office, discount_clinic.address, discount_clinic.patient, discount_clinic.emergency_contact
@@ -159,6 +159,7 @@
                     } else {
                         echo "<tr><td colspan='5'>No appointments found.</td></tr>";
                     }
+                    */
                   
             ?>
         </tbody>
@@ -178,6 +179,7 @@
         </thead>
         <tbody>
             <?php 
+            /*
                 ob_start();
                 $doctor_query = "SELECT *
                 FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor
@@ -196,7 +198,7 @@
                     }
                 }
                 $conn->close();
-                
+                */
              ?>
         </tbody>
     </table>
@@ -205,7 +207,7 @@
 
 
  <?php
- 
+    /*
     ob_start();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $address_id = $_POST['address_id'];
@@ -216,5 +218,5 @@
     }
     
     echo $result->num_rows;
-    
+    */
 ?>
