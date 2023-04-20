@@ -210,8 +210,8 @@ session_start();
         <input type="text" id="allergies" name="allergies">
         
         <h1>Pick your primary physician</h1>
-        <label for="state">Select a State:</label>
-				<select id="state" name="state" onchange="my_fun(this.value);">
+        <label for="doctor_state">Select a State:</label>
+				<select id="doctor_state" name="doctor_state" onchange="my_fun(this.value);">
 
             <option value=""></option>
             <option value="AL">Alabama</option>
