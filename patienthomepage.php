@@ -76,6 +76,16 @@ $user_data = check_login($conn);
     </div>
 
 </html>
+<form method="POST" action="patienthomepage.php">
+  <label for="start_date">Start Date:</label>
+  <input type="date" name="start_date" required>
+  <label for="end_date">End Date:</label>
+  <input type="date" name="end_date" required>
+  <button type="submit" name="submit_dates">Filter</button>
+</form>
+
+
+
 <h3> Upcoming Appointments</h3>
 <table>
   <thead>
@@ -113,11 +123,21 @@ $user_data = check_login($conn);
 
 
     // $sql = "SELECT * FROM appointment WHERE patient_id = '$patient_id' AND deleted = FALSE";
-
-
-    $sql = "SELECT * 
-    FROM discount_clinic.appointment, discount_clinic.office, discount_clinic.address, discount_clinic.doctor
-    WHERE patient_id = '$patient_id' AND office.address_id = address.address_id AND appointment.office_id = office.office_id AND appointment.doctor_id = doctor.doctor_id AND appointment.cancelled = FALSE";
+    $start_date = date("Y-m-d", strtotime("-1 month"));
+    $end_date = date("Y-m-d", strtotime("+1 month"));
+  
+    // Update start and end dates based on user input
+    if (isset($_POST['submit_dates'])) {
+      $start_date = $_POST['start_date'];
+      $end_date = $_POST['end_date'];
+    }
+  
+    // Modify SQL query to fetch appointments within the specified date range
+    $sql = "SELECT *
+            FROM discount_clinic.appointment, discount_clinic.office, discount_clinic.address, discount_clinic.doctor
+            WHERE patient_id = '$patient_id' AND office.address_id = address.address_id AND appointment.office_id = office.office_id AND appointment.doctor_id = doctor.doctor_id AND appointment.cancelled = FALSE
+            AND date >= '$start_date' AND date <= '$end_date'";
+  
 
     $result = $conn->query($sql);
 
