@@ -93,7 +93,7 @@
         </thead>
         <tbody> 
     <?php
-    /*
+    
     ob_start();
 
     if(isset($_POST['address_id'])){
@@ -120,7 +120,7 @@
         }
 }
 
-        */
+        
     ?>
         </tbody>
     </table>
