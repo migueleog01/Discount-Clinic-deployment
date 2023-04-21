@@ -171,8 +171,8 @@ if (isset($_POST['report_type'])) {
         echo "<tr>";
         echo "<th>Appointment ID</th>";
         echo "<th>Patient Name</th>";
-        echo "<th>Date</th>";
-        echo "<th>Time</th>";
+        echo "<th>Appointment Date</th>";
+        echo "<th>Appointment Time</th>";
         echo "<th>Office Address</th>";
         echo "</tr>";
         echo '</thead>';
@@ -207,8 +207,37 @@ if (isset($_POST['report_type'])) {
         $gender = $_POST['gender'];
         //$patient_query = "SELECT DISTINCT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
         // FROM discount_clinic.office, discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.appointment, discount_clinic.address WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id";
-        $patient_query = "SELECT DISTINCT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
+        /* $patient_query = "SELECT DISTINCT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
                            FROM discount_clinic.office, discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.appointment, discount_clinic.address WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id";
+
+                    
+                           */
+
+        $patient_query = "SELECT DISTINCT
+                                                 address.street_address,
+                                                 address.city,
+                                                 address.state,
+                                                 address.zip,
+                                                 patient.patient_id,
+                                                 patient.first_name,
+                                                 patient.middle_initial,
+                                                 patient.last_name,
+                                                 patient.gender,
+                                                 patient.phone_number AS patient_phone_number,
+                                                 patient.DOB,
+                                                 emergency_contact.phone_number AS e_phone_number
+                                               FROM
+                                                 discount_clinic.office,
+                                                 discount_clinic.patient,
+                                                 discount_clinic.emergency_contact,
+                                                 discount_clinic.appointment,
+                                                 discount_clinic.address
+                                               WHERE
+                                                 appointment.office_id = office.office_id
+                                                 AND appointment.patient_id = patient.patient_id
+                                                 AND office.office_id = '$office_id'
+                                                 AND patient.address_id = address.address_id
+                                                 AND emergency_contact.patient_id = patient.patient_id";
         if ($gender !== 'all') {
             $patient_query .= " AND patient.gender = '$gender'";
         }
@@ -219,6 +248,7 @@ if (isset($_POST['report_type'])) {
         echo '<tr>';
         echo '<th>Patient ID</th>';
         echo '<th>Name</th>';
+        echo '<th>Address</th>';
         echo '<th>DOB</th>';
         echo '<th>Gender</th>';
         echo '<th>Phone</th>';
@@ -232,6 +262,7 @@ if (isset($_POST['report_type'])) {
                 echo "<tr>";
                 echo "<td>" . $row['patient_id'] . "</td>";
                 echo "<td>" . $row['first_name'] . " " . $row['middle_initial'] . " " . $row['last_name'] . "</td>";
+                echo "<td>" . $row['street_address'] . " " . $row['city'] . " " . $row['state'] . " " . $row['zip'] . "</td>";
                 echo "<td>" . $row['DOB'] . "</td>";
                 echo "<td>" . $row['gender'] . "</td>";
                 echo "<td>" . $row['patient_phone_number'] . "</td>";
@@ -256,10 +287,17 @@ if (isset($_POST['report_type'])) {
         } elseif ($doctor_type === 'specialist') {
             $doctor_type_condition = "AND doctor.specialty != 'Primary'";
         }
-
+        /*
         $doctor_query = "SELECT DISTINCT doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number
                         FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition";
-
+        */
+        $doctor_query = "SELECT DISTINCT doctor.doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number, appointment_count.count AS appointment_count
+FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office,
+    (SELECT count(*) AS count, appointment.doctor_id
+     FROM discount_clinic.doctor, discount_clinic.appointment
+     WHERE doctor.doctor_id = appointment.doctor_id AND appointment.deleted = 0 AND appointment.cancelled = 0
+     GROUP BY appointment.doctor_id) AS appointment_count
+WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition AND doctor.doctor_id = appointment_count.doctor_id";
         $doctor_result = $conn->query($doctor_query);
 
         echo '<table>';
@@ -271,6 +309,8 @@ if (isset($_POST['report_type'])) {
         echo '<th>DOB</th>';
         echo '<th>Gender</th>';
         echo '<th>Phone</th>';
+        echo '<th>Appointments</th>'; // Added new column header for appointments
+
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -284,6 +324,9 @@ if (isset($_POST['report_type'])) {
                 echo "<td>" . $row['DOB'] . "</td>";
                 echo "<td>" . $row['gender'] . "</td>";
                 echo "<td>" . $row['phone_number'] . "</td>";
+                echo "<td>" . $row['appointment_count'] . "</td>"; // Added new column value for appointment count
+
+
             }
         } else {
             echo "<tr><td colspan='6'>No doctors found.</td></tr>";
