@@ -125,6 +125,9 @@ include("functions.php");
                 document.getElementById("date-range").style.display = "block";
                 document.getElementById("gender-label").style.display = "none";
                 document.getElementById("gender").style.display = "none";
+                document.getElementById("doctor-type-label").style.display = "none";
+                document.getElementById("doctor_type").style.display = "none";
+                
             } else if (this.value === "patients") {
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "inline";
@@ -345,7 +348,7 @@ WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID 
         } else {
             echo "<tr><td colspan='6'>No doctors found.</td></tr>";
         }
-        
+
     }
 }
 
