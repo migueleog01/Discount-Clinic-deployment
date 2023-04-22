@@ -109,11 +109,7 @@ $result = $conn->query($sql);
 		$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 	}
 	?>
-	<?php
-	if (!isset($_SESSION['csrf_token'])) {
-		$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-	}
-	?>
+	
 	<h2>Edit Information</h2>
 	<form method="post" action="" onsubmit="window.location.reload()">
 		<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
@@ -139,6 +135,16 @@ ob_start();
 include("dbh-inc.php");
 $user_data = check_login($conn);
 $user_id_fk = $user_data['user_ID'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		die('Invalid CSRF token');
+	}
+}
+
+$user_data = check_login($conn);
+$user_id_fk = $user_data['user_ID'];
+
 
 //get patient id using user id
 $sql = "SELECT doctor_id FROM doctor WHERE user_id = '$user_id_fk'";
