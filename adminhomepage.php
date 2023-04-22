@@ -127,7 +127,7 @@ include("functions.php");
                 document.getElementById("gender").style.display = "none";
                 document.getElementById("doctor-type-label").style.display = "none";
                 document.getElementById("doctor_type").style.display = "none";
-                
+
             } else if (this.value === "patients") {
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "inline";
@@ -152,7 +152,7 @@ include("functions.php");
 
 if (isset($_POST['report_type'])) {
     $report_type = $_POST['report_type'];
-
+    /*
     if ($report_type === 'appointments') {
         $office_id = $_POST['office_id'];
 
@@ -199,6 +199,57 @@ if (isset($_POST['report_type'])) {
             }
         } else {
             echo "<tr><td colspan='5'>No appointments found.</td></tr>";
+        }
+    }
+    */
+    if ($report_type === 'appointments') {
+        $office_id = $_POST['office_id'];
+    
+        if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
+            $start_date = $_POST['start_date'];
+            $end_date = $_POST['end_date'];
+        } else {
+            $start_date = $current_date;
+            $end_date = $end_date;
+        }
+    
+        $appointment_query = "SELECT DISTINCT appointment.*, patient.first_name AS patient_first_name, patient.last_name AS patient_last_name, doctor.first_name AS doctor_first_name, address.*
+                              FROM discount_clinic.office, discount_clinic.address, discount_clinic.appointment, discount_clinic.patient, discount_clinic.doctor
+                              WHERE appointment.office_id = office.office_id
+                              AND appointment.patient_id = patient.patient_id
+                              AND appointment.doctor_id = doctor.doctor_id
+                              AND office.office_id = '$office_id'
+                              AND office.address_id = address.address_id
+                              AND date >= '$start_date' AND date <= '$end_date'
+                              ORDER BY date, time";
+        $address_result = $conn->query($appointment_query);
+    
+        echo "<table>";
+        echo '<thead>';
+        echo "<tr>";
+        echo "<th>Appointment ID</th>";
+        echo "<th>Patient Name</th>";
+        echo "<th>Doctor Name</th>"; // Added Doctor Name header
+        echo "<th>Appointment Date</th>";
+        echo "<th>Appointment Time</th>";
+        echo "<th>Office Address</th>";
+        echo "</tr>";
+        echo '</thead>';
+        echo '<tbody>';
+    
+        if ($address_result->num_rows > 0) {
+            while ($row = $address_result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['appointment_id'] . "</td>";
+                echo "<td>" . $row['doctor_first_name'] . "</td>"; // Added Doctor Name to the table
+                echo "<td>" . $row['patient_first_name'] . " " . $row['patient_last_name'] . "</td>";
+                echo "<td>" . $row['date'] . "</td>";
+                echo "<td>" . $row['time'] . "</td>";
+                echo "<td>" . $row['street_address'] . " " . $row['city'] . " " . $row['state'] . " " . $row['zip'] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='6'>No appointments found.</td></tr>"; // Updated colspan to 6
         }
     }
 
