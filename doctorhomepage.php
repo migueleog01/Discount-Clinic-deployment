@@ -21,6 +21,9 @@ session_start();
 		$doctor_data = mysqli_fetch_assoc($result);
 		$doctor_id = $doctor_data['doctor_id'];
 	}
+
+	$other_query = "SELECT specialty FROM doctor WHERE doctor_id = '$doctor_id'";
+	$res = $conn->query($other_query);
 	
 	$sql = "SELECT * FROM appointment WHERE doctor_id = '$doctor_id' AND deleted = FALSE";
 
@@ -72,7 +75,8 @@ session_start();
 				<li class ="active"><a href="doctorhomepage.php">Home</a></li>
 				<li><a href="doctor_profile.php">Profile</a></li>
 				<li><a href="doctorappointments.php">Appointments</a></li>
-                <li><a href="approval.php">Approvals</a></li>
+				
+				
 				<li><a href="logout.php">Logout</a></li>
 			</ul>
 		</nav>
@@ -93,6 +97,11 @@ session_start();
 	  	</thead>
 	  	<tbody>	
 	<?php
+		if($res->num_rows > 0){
+			echo "<li><a href='approval.php'>Approvals</a></li>";
+		}
+			
+			
 		if ($result->num_rows > 0) {
 			while ($row = $result->fetch_assoc()) {
 				echo "<tr>";
