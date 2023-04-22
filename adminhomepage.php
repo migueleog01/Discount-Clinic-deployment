@@ -111,7 +111,9 @@ include("functions.php");
             <option value="O">Other</option>
         </select>
 
+
         <div id="age-range" style="display: none;">
+            <h4>Filter patients by age range:</h4>
             <label for="min_age">Minimum Age:</label>
             <input type="number" id="min_age" name="min_age" min="0" max="150" step="1">
             <label for="max_age">Maximum Age:</label>
@@ -138,9 +140,7 @@ include("functions.php");
                 document.getElementById("doctor_type").style.display = "none";
                 document.getElementById("age-range").style.display = "none"; // Add this line
 
-
-            }
-            if (this.value === "patients") {
+            } else if (this.value === "patients") { // Change this line
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "inline";
                 document.getElementById("gender").style.display = "inline";
@@ -154,7 +154,6 @@ include("functions.php");
                 document.getElementById("doctor-type-label").style.display = "inline";
                 document.getElementById("doctor_type").style.display = "inline";
                 document.getElementById("age-range").style.display = "none"; // Add this line
-                
             }
         });
     </script>
@@ -226,11 +225,11 @@ if (isset($_POST['report_type'])) {
     else if ($report_type === 'patients') {
         $office_id = $_POST['office_id'];
         $gender = $_POST['gender'];
-        
+
         // Get the min_age and max_age values from the form (if set)
         $min_age = isset($_POST['min_age']) ? (int)$_POST['min_age'] : null;
         $max_age = isset($_POST['max_age']) ? (int)$_POST['max_age'] : null;
-    
+
         $patient_query = "SELECT DISTINCT
                             address.street_address,
                             address.city,
@@ -256,20 +255,20 @@ if (isset($_POST['report_type'])) {
                             AND office.office_id = '$office_id'
                             AND patient.address_id = address.address_id
                             AND emergency_contact.patient_id = patient.patient_id";
-        
+
         if ($gender !== 'all') {
             $patient_query .= " AND patient.gender = '$gender'";
         }
-        
+
         // Add conditions to your query based on the min_age and max_age values
         if ($min_age !== null) {
             $patient_query .= " AND TIMESTAMPDIFF(YEAR, patient.DOB, CURDATE()) >= $min_age";
         }
-        
+
         if ($max_age !== null) {
             $patient_query .= " AND TIMESTAMPDIFF(YEAR, patient.DOB, CURDATE()) <= $max_age";
         }
-    
+
         $patient_result = $conn->query($patient_query);
 
         echo '<table>';
