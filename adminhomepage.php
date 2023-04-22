@@ -136,6 +136,8 @@ include("functions.php");
                 document.getElementById("gender").style.display = "none";
                 document.getElementById("doctor-type-label").style.display = "none";
                 document.getElementById("doctor_type").style.display = "none";
+                document.getElementById("age-range").style.display = "none"; // Add this line
+
 
             }
             if (this.value === "patients") {
@@ -151,6 +153,8 @@ include("functions.php");
                 document.getElementById("gender").style.display = "none";
                 document.getElementById("doctor-type-label").style.display = "inline";
                 document.getElementById("doctor_type").style.display = "inline";
+                document.getElementById("age-range").style.display = "none"; // Add this line
+                
             }
         });
     </script>
