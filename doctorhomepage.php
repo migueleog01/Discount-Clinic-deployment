@@ -98,7 +98,12 @@ session_start();
 	  	<tbody>	
 	<?php
 		if($res->num_rows > 0){
-			echo "<li><a href='approval.php'>Approvals</a></li>";
+			while($row = $result->fetch_assoc()){
+				$specialty = $row['specialty'];
+				if($specialty==='primary'){	
+					echo "<li><a href='approval.php'>Approvals</a></li>";
+				}
+			}
 		}
 			
 			
