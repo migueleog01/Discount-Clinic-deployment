@@ -228,8 +228,8 @@ if (isset($_POST['report_type'])) {
         echo '<thead>';
         echo "<tr>";
         echo "<th>Appointment ID</th>";
-        echo "<th>Patient Name</th>";
-        echo "<th>Doctor Name</th>"; // Added Doctor Name header
+        echo "<th>Doctor Name</th>";
+        echo "<th>Patient Name</th>"; // Added Doctor Name header
         echo "<th>Appointment Date</th>";
         echo "<th>Appointment Time</th>";
         echo "<th>Office Address</th>";
