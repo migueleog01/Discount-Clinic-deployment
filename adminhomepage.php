@@ -225,11 +225,10 @@ if (isset($_POST['report_type'])) {
     else if ($report_type === 'patients') {
         $office_id = $_POST['office_id'];
         $gender = $_POST['gender'];
-
-        // Get the min_age and max_age values from the form (if set)
-        $min_age = isset($_POST['min_age']) ? (int)$_POST['min_age'] : null;
-        $max_age = isset($_POST['max_age']) ? (int)$_POST['max_age'] : null;
-
+    
+        $min_age = isset($_POST['min_age']) && !empty($_POST['min_age']) ? $_POST['min_age'] : null;
+        $max_age = isset($_POST['max_age']) && !empty($_POST['max_age']) ? $_POST['max_age'] : null;
+    
         $patient_query = "SELECT DISTINCT
                             address.street_address,
                             address.city,
@@ -247,30 +246,30 @@ if (isset($_POST['report_type'])) {
                             discount_clinic.office,
                             discount_clinic.patient,
                             discount_clinic.emergency_contact,
-                            discount_clinic.appointment,
-                            discount_clinic.address
+                            discount_clinic.address,
+                            discount_clinic.doctor,
+                            discount_clinic.doctor_office
                           WHERE
-                            appointment.office_id = office.office_id
-                            AND appointment.patient_id = patient.patient_id
+                            doctor_office.DID = doctor.doctor_id
+                            AND doctor_office.OID = office.office_id
                             AND office.office_id = '$office_id'
                             AND patient.address_id = address.address_id
                             AND emergency_contact.patient_id = patient.patient_id";
-
+    
         if ($gender !== 'all') {
             $patient_query .= " AND patient.gender = '$gender'";
         }
-
-        // Add conditions to your query based on the min_age and max_age values
+    
         if ($min_age !== null) {
             $patient_query .= " AND TIMESTAMPDIFF(YEAR, patient.DOB, CURDATE()) >= $min_age";
         }
-
+    
         if ($max_age !== null) {
             $patient_query .= " AND TIMESTAMPDIFF(YEAR, patient.DOB, CURDATE()) <= $max_age";
         }
-
+    
         $patient_result = $conn->query($patient_query);
-
+        
         echo '<table>';
         echo '<thead>';
         echo '<tr>';
