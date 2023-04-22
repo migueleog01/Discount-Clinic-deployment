@@ -110,6 +110,15 @@ include("functions.php");
             <option value="F">Female</option>
             <option value="O">Other</option>
         </select>
+
+        <div id="age-range" style="display: none;">
+            <label for="min_age">Minimum Age:</label>
+            <input type="number" id="min_age" name="min_age" min="0" max="150" step="1">
+            <label for="max_age">Maximum Age:</label>
+            <input type="number" id="max_age" name="max_age" min="0" max="150" step="1">
+        </div>
+
+
         <label for="doctor_type" id="doctor-type-label" style="display: none;">Doctor Type:</label>
         <select id="doctor_type" name="doctor_type" style="display: none;" required>
             <option value="all">All</option>
@@ -128,12 +137,14 @@ include("functions.php");
                 document.getElementById("doctor-type-label").style.display = "none";
                 document.getElementById("doctor_type").style.display = "none";
 
-            } else if (this.value === "patients") {
+            }
+            if (this.value === "patients") {
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "inline";
                 document.getElementById("gender").style.display = "inline";
                 document.getElementById("doctor-type-label").style.display = "none";
                 document.getElementById("doctor_type").style.display = "none";
+                document.getElementById("age-range").style.display = "block"; // Add this line
             } else {
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "none";
@@ -152,10 +163,8 @@ include("functions.php");
 
 if (isset($_POST['report_type'])) {
     $report_type = $_POST['report_type'];
-    /*
     if ($report_type === 'appointments') {
         $office_id = $_POST['office_id'];
-
 
         if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
             $start_date = $_POST['start_date'];
@@ -164,56 +173,8 @@ if (isset($_POST['report_type'])) {
             $start_date = $current_date;
             $end_date = $end_date;
         }
-        $appointment_query = "SELECT DISTINCT *
-        FROM discount_clinic.office, discount_clinic.address, discount_clinic.appointment, discount_clinic.patient
-        WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id
-        AND date >= '$start_date' AND date <= '$end_date'
-        ORDER BY date, time";
-        $address_result = $conn->query($appointment_query);
 
-        echo "<table>";
-        echo '<thead>';
-        echo "<tr>";
-        echo "<th>Appointment ID</th>";
-        echo "<th>Patient Name</th>";
-        echo "<th>Appointment Date</th>";
-        echo "<th>Appointment Time</th>";
-        echo "<th>Office Address</th>";
-        echo "</tr>";
-        echo '</thead>';
-        echo '<tbody>';
-
-
-
-
-
-        if ($address_result->num_rows > 0) {
-            while ($row = $address_result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['appointment_id'] . "</td>";
-                echo "<td>" . $row['first_name'] . " " . $row['last_name'] . "</td>";
-                echo "<td>" . $row['date'] . "</td>";
-                echo "<td>" . $row['time'] . "</td>";
-                echo "<td>" . $row['street_address'] . " " . $row['city'] . " " . $row['state'] . " " . $row['zip'] . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='5'>No appointments found.</td></tr>";
-        }
-    }
-    */
-    if ($report_type === 'appointments') {
-        $office_id = $_POST['office_id'];
-    
-        if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
-            $start_date = $_POST['start_date'];
-            $end_date = $_POST['end_date'];
-        } else {
-            $start_date = $current_date;
-            $end_date = $end_date;
-        }
-    
-        $appointment_query = "SELECT DISTINCT appointment.*, patient.first_name AS patient_first_name, patient.last_name AS patient_last_name, doctor.first_name AS doctor_first_name, address.*
+        $appointment_query = "SELECT DISTINCT appointment.*, patient.first_name AS patient_first_name, patient.last_name AS patient_last_name, doctor.first_name AS doctor_first_name, doctor.last_name AS doctor_last_name, address.*
                               FROM discount_clinic.office, discount_clinic.address, discount_clinic.appointment, discount_clinic.patient, discount_clinic.doctor
                               WHERE appointment.office_id = office.office_id
                               AND appointment.patient_id = patient.patient_id
@@ -223,7 +184,7 @@ if (isset($_POST['report_type'])) {
                               AND date >= '$start_date' AND date <= '$end_date'
                               ORDER BY date, time";
         $address_result = $conn->query($appointment_query);
-    
+
         echo "<table>";
         echo '<thead>';
         echo "<tr>";
@@ -236,12 +197,12 @@ if (isset($_POST['report_type'])) {
         echo "</tr>";
         echo '</thead>';
         echo '<tbody>';
-    
+
         if ($address_result->num_rows > 0) {
             while ($row = $address_result->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row['appointment_id'] . "</td>";
-                echo "<td>" . $row['doctor_first_name'] . "</td>"; // Added Doctor Name to the table
+                echo "<td>" . $row['doctor_first_name'] . " " . $row['doctor_last_name'] . "</td>"; // Added Doctor Name to the table
                 echo "<td>" . $row['patient_first_name'] . " " . $row['patient_last_name'] . "</td>";
                 echo "<td>" . $row['date'] . "</td>";
                 echo "<td>" . $row['time'] . "</td>";
@@ -258,45 +219,53 @@ if (isset($_POST['report_type'])) {
     //}
 
     // ... (Your existing PHP code to display the appointments table)
-    else  if ($report_type === 'patients') {
+    else if ($report_type === 'patients') {
         $office_id = $_POST['office_id'];
         $gender = $_POST['gender'];
-        //$patient_query = "SELECT DISTINCT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
-        // FROM discount_clinic.office, discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.appointment, discount_clinic.address WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id";
-        /* $patient_query = "SELECT DISTINCT street_address, city, state, zip, patient.patient_id, first_name, middle_initial, last_name, gender, patient.phone_number AS patient_phone_number, DOB, emergency_contact.phone_number AS e_phone_number
-                           FROM discount_clinic.office, discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.appointment, discount_clinic.address WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id AND emergency_contact.patient_id = patient.patient_id";
-
-                    
-                           */
-
+        
+        // Get the min_age and max_age values from the form (if set)
+        $min_age = isset($_POST['min_age']) ? (int)$_POST['min_age'] : null;
+        $max_age = isset($_POST['max_age']) ? (int)$_POST['max_age'] : null;
+    
         $patient_query = "SELECT DISTINCT
-                                                 address.street_address,
-                                                 address.city,
-                                                 address.state,
-                                                 address.zip,
-                                                 patient.patient_id,
-                                                 patient.first_name,
-                                                 patient.middle_initial,
-                                                 patient.last_name,
-                                                 patient.gender,
-                                                 patient.phone_number AS patient_phone_number,
-                                                 patient.DOB,
-                                                 emergency_contact.phone_number AS e_phone_number
-                                               FROM
-                                                 discount_clinic.office,
-                                                 discount_clinic.patient,
-                                                 discount_clinic.emergency_contact,
-                                                 discount_clinic.appointment,
-                                                 discount_clinic.address
-                                               WHERE
-                                                 appointment.office_id = office.office_id
-                                                 AND appointment.patient_id = patient.patient_id
-                                                 AND office.office_id = '$office_id'
-                                                 AND patient.address_id = address.address_id
-                                                 AND emergency_contact.patient_id = patient.patient_id";
+                            address.street_address,
+                            address.city,
+                            address.state,
+                            address.zip,
+                            patient.patient_id,
+                            patient.first_name,
+                            patient.middle_initial,
+                            patient.last_name,
+                            patient.gender,
+                            patient.phone_number AS patient_phone_number,
+                            patient.DOB,
+                            emergency_contact.phone_number AS e_phone_number
+                          FROM
+                            discount_clinic.office,
+                            discount_clinic.patient,
+                            discount_clinic.emergency_contact,
+                            discount_clinic.appointment,
+                            discount_clinic.address
+                          WHERE
+                            appointment.office_id = office.office_id
+                            AND appointment.patient_id = patient.patient_id
+                            AND office.office_id = '$office_id'
+                            AND patient.address_id = address.address_id
+                            AND emergency_contact.patient_id = patient.patient_id";
+        
         if ($gender !== 'all') {
             $patient_query .= " AND patient.gender = '$gender'";
         }
+        
+        // Add conditions to your query based on the min_age and max_age values
+        if ($min_age !== null) {
+            $patient_query .= " AND TIMESTAMPDIFF(YEAR, patient.DOB, CURDATE()) >= $min_age";
+        }
+        
+        if ($max_age !== null) {
+            $patient_query .= " AND TIMESTAMPDIFF(YEAR, patient.DOB, CURDATE()) <= $max_age";
+        }
+    
         $patient_result = $conn->query($patient_query);
 
         echo '<table>';
@@ -326,6 +295,7 @@ if (isset($_POST['report_type'])) {
                 echo "</tr>";
             }
         }
+
 
         echo '</tbody>';
         echo '</table>';
@@ -391,7 +361,7 @@ WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID 
                         echo "<td>" . $row2['street_address'] . " " . $row2['city'] . " " . $row2['state'] . " " . $row2['zip'] . "</td>";
                     }
                 }
-                
+
                 echo "<td>" . $row['appointment_count'] . "</td>"; // Added new column value for appointment count
 
 
@@ -399,7 +369,6 @@ WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID 
         } else {
             echo "<tr><td colspan='6'>No doctors found.</td></tr>";
         }
-
     }
 }
 
