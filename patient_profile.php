@@ -180,6 +180,8 @@ if ($patient_result && mysqli_num_rows($patient_result) > 0) {
 <?php
 ob_start();
 include("dbh-inc.php");
+$user_data = check_login($conn);
+$user_id_fk = $user_data['user_ID'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 		die('Invalid CSRF token');
