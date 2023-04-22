@@ -124,6 +124,15 @@ session_start();
         $specialty = $_POST['specialty'];
 
 
+        $checking_query = "SELECT * FROM user WHERE username = '$username' LIMIT 1";
+        $result =  mysqli_query($conn, $checking_query);
+
+
+        if($result && mysqli_num_rows($result) > 0){
+           echo "Username already taken";
+        }
+        else{
+		
         $sql_doctor_user = "INSERT INTO user (role, username, password) VALUES
         ('doctor','$username', '$password')";
         mysqli_query($conn, $sql_doctor_user);
@@ -142,17 +151,20 @@ session_start();
         $new_doctor_id_res = mysqli_query($conn, $new_doctor_id_sql);
         $new_doctor_id_row = mysqli_fetch_assoc($new_doctor_id_res);
         $new_doctor_id = $new_doctor_id_row['doctor_id'];
-        echo $new_doctor_id;
+        // echo $new_doctor_id;
         
         
         $new_office_id_sql = "SELECT office_id FROM discount_clinic.office WHERE office.address_id = $address_id";
         $new_office_id_res = mysqli_query($conn, $new_office_id_sql);
         $new_office_id_row = mysqli_fetch_assoc($new_office_id_res);
         $new_office_id = $new_office_id_row['office_id'];
-        echo $new_office_id;
+        // echo $new_office_id;
         $sql_office = "INSERT INTO discount_clinic.doctor_office (DID, OID) VALUES
         ($new_doctor_id, $new_office_id)";
         mysqli_query($conn, $sql_office);
+
+
+        }
 
         mysqli_close($conn);
     }
