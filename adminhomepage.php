@@ -129,6 +129,8 @@ include("functions.php");
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "inline";
                 document.getElementById("gender").style.display = "inline";
+                document.getElementById("doctor-type-label").style.display = "none";
+                document.getElementById("doctor_type").style.display = "none";
             } else {
                 document.getElementById("date-range").style.display = "none";
                 document.getElementById("gender-label").style.display = "none";
