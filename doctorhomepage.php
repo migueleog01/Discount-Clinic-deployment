@@ -97,13 +97,12 @@ session_start();
 	  	</thead>
 	  	<tbody>	
 	<?php
-		if($res->num_rows > 0){
-			while($row = $result->fetch_assoc()){
-				$specialty = $row['specialty'];
+		if($res && mysqli_num_rows($res) > 0) {
+			$specialty_data = mysqli_fetch_assoc($res);
+			$specialty = $specialty_data['specialty'];
 				if($specialty==='primary'){	
 					echo "<li><a href='approval.php'>Approvals</a></li>";
 				}
-			}
 		}
 			
 			
