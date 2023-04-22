@@ -165,7 +165,7 @@ if (isset($_POST['report_type'])) {
         FROM discount_clinic.office, discount_clinic.address, discount_clinic.appointment, discount_clinic.patient
         WHERE appointment.office_id=office.office_id AND appointment.patient_id = patient.patient_id AND office.office_id = '$office_id' AND office.address_id = address.address_id
         AND date >= '$start_date' AND date <= '$end_date'
-        ORDER BY appointment_id";
+        ORDER BY date, time";
         $address_result = $conn->query($appointment_query);
 
         echo "<table>";
@@ -311,6 +311,7 @@ WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID 
         echo '<th>DOB</th>';
         echo '<th>Gender</th>';
         echo '<th>Phone</th>';
+        echo '<th>Office Address</th>';
         echo '<th>Appointments</th>'; // Added new column header for appointments
 
         echo '</tr>';
@@ -326,6 +327,17 @@ WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID 
                 echo "<td>" . $row['DOB'] . "</td>";
                 echo "<td>" . $row['gender'] . "</td>";
                 echo "<td>" . $row['phone_number'] . "</td>";
+                //display office address
+                $office_query = "SELECT address.street_address, address.city, address.state, address.zip
+                                FROM discount_clinic.office, discount_clinic.address
+                                WHERE office.office_id = '$office_id' AND office.address_id = address.address_id";
+                $office_result = $conn->query($office_query);
+                if ($office_result->num_rows > 0) {
+                    while ($row2 = $office_result->fetch_assoc()) {
+                        echo "<td>" . $row2['street_address'] . " " . $row2['city'] . " " . $row2['state'] . " " . $row2['zip'] . "</td>";
+                    }
+                }
+                
                 echo "<td>" . $row['appointment_count'] . "</td>"; // Added new column value for appointment count
 
 
@@ -333,6 +345,7 @@ WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID 
         } else {
             echo "<tr><td colspan='6'>No doctors found.</td></tr>";
         }
+        
     }
 }
 
