@@ -77,7 +77,7 @@ include("functions.php");
             // ... (Your existing PHP code to fetch office addresses)
             $office_address_query = "SELECT * 
                 FROM discount_clinic.office, discount_clinic.address
-                WHERE office.address_id = address.address_id";
+                WHERE office.address_id = address.address_id AND office.deleted=0";
             $office_address_result = mysqli_query($conn, $office_address_query);
 
 
