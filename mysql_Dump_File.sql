@@ -145,40 +145,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-/*
--- -----------------------------------------------------
--- Table `discount_clinic`.`medicine`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `discount_clinic`.`medicine` (
-	`medicine_id` INT NOT NULL,
-	`patient_id` INT NOT NULL,
-	`medical_history_id` INT NOT NULL,
-	`medicine_name` VARCHAR(45) NOT NULL,
-	`quantity` VARCHAR(10) NOT NULL,
-	`doctor_perscribed` VARCHAR(20) NOT NULL,
-	`deleted` BOOLEAN NOT NULL,
-	PRIMARY KEY (`medicine_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `discount_clinic`.`medicial_history`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `discount_clinic`.`medicial_history` (
-	`medical_history_id` INT NOT NULL,
-	`patient_id` INT NOT NULL,
-	`doctor_id` INT NOT NULL,
-	`appointment_id` INT NULL,
-	`deleted` BOOLEAN NOT NULL,
-	FOREIGN KEY(`patient_id`) REFERENCES `discount_clinic`.`patient`(`patient_id`),
-	FOREIGN KEY(`doctor_id`) REFERENCES `discount_clinic`.`doctor`(`doctor_id`),
-	PRIMARY KEY (`medical_history_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-*/
 
 -- -----------------------------------------------------
 -- Table `discount_clinic`.`transaction`
@@ -213,19 +179,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-/*
--- -----------------------------------------------------
--- Table `discount_clinic`.`doctor_patient`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `doctor_patient` (
-	`DID` INT NOT NULL,
-	`PID` INT NOT NULL,
-	`deleted` TINYINT(1) DEFAULT FALSE,
-	PRIMARY KEY (`DID`,`PID`),
-	FOREIGN KEY (`DID`) REFERENCES `doctor`(`doctor_id`),
-	FOREIGN KEY (`PID`) REFERENCES `patient`(`patient_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-*/
 
 -- -----------------------------------------------------
 -- Table `discount_clinic`.`doctor_office`
