@@ -133,7 +133,7 @@ $sql = "SELECT appointment.*, office.*, address.*, doctor.*, approval.approval_b
         JOIN discount_clinic.address ON office.address_id = address.address_id
         JOIN discount_clinic.doctor ON appointment.doctor_id = doctor.doctor_id
         LEFT JOIN discount_clinic.approval AS approval ON appointment.patient_id = approval.patient_id
-        WHERE appointment.patient_id = '$patient_id' AND appointment.cancelled = FALSE
+        WHERE appointment.patient_id = '$patient_id' AND appointment.cancelled = FALSE AND office.deleted=0
         AND date >= '$start_date' AND date <= '$end_date'";
 
 $result = $conn->query($sql);
