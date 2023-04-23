@@ -87,9 +87,7 @@
         <select id="state" name="state" onchange="my_fun(this.value);">
 -->
 
-    <label for="doctor_state">Select a State:</label>
-    
-      <option value=""></option>
+        <label for="doctor_state">Select a State:</label>
 
 
 <?php
@@ -109,6 +107,7 @@ WHERE office.address_id = address.address_id";
 
   if(mysqli_num_rows($result) > 0)
   {
+      echo "<option value=''></option>";
 
     while ($rows = mysqli_fetch_assoc($result))
     {
