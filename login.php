@@ -20,7 +20,7 @@ session_start();
 
 		{
 
-			$query = "SELECT * FROM user WHERE user.deleted-0 AND username = '$username' LIMIT 1";
+			$query = "SELECT * FROM user WHERE user.deleted=0 AND username = '$username' LIMIT 1";
 
 			$result = mysqli_query($conn, $query);
 
