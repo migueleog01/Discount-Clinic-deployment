@@ -1,13 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<title>Doctor Profile</title>
+	<header>
+		<h1>
+			<center>Doctor Profile</center>
+		</h1>
+		<nav>
+			<ul>
+				<li class="active"><a href="doctorhomepage.php">Home</a></li>
+				<li><a href="doctor_profile.php">Profile</a></li>
+				<li><a href="doctorappointments.php">Appointments</a></li>
+				<!--<li><a href="approval.php">Approvals</a></li>-->
+
 <?php
-ob_start();
-session_start();
-include("dbh-inc.php");
-include("functions.php");
-
-$user_data = check_login($conn);
-$user_id = $user_data['user_ID'];
-$username = $user_data['username'];
-
+include("isnotspecialist.php");
 
 $patient = "SELECT *
 				FROM discount_clinic.doctor, discount_clinic.user
@@ -33,23 +42,6 @@ $sql = "SELECT *
 $result = $conn->query($sql);
 ?>
 
-
-<!DOCTYPE html>
-<html>
-
-<head>
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<title>Doctor Profile</title>
-	<header>
-		<h1>
-			<center>Doctor Profile</center>
-		</h1>
-		<nav>
-			<ul>
-				<li class="active"><a href="doctorhomepage.php">Home</a></li>
-				<li><a href="doctor_profile.php">Profile</a></li>
-				<li><a href="doctorappointments.php">Appointments</a></li>
-				<li><a href="approval.php">Approvals</a></li>
 				<li><a href="logout.php">Logout</a></li>
 			</ul>
 		</nav>
