@@ -83,44 +83,5 @@ session_start();
 	</header>
 </body>
     
-	<h2><center>Hello, <?php $user_data = check_login($conn); echo $user_data['username']; ?></center></h2>
-	<h3>Upcoming Appointments</h3>
-	<table>
-		<thead>
-		    <tr>
-		      <th>Appointment ID</th>
-		      <th>Patient Name</th>
-		      <th>Date</th>
-		      <th>Time</th>
-		      <th>Office Location</th>
-		    </tr>
-	  	</thead>
-	  	<tbody>	
-	<?php
-		if($res && mysqli_num_rows($res) > 0) {
-			$specialty_data = mysqli_fetch_assoc($res);
-			$specialty = $specialty_data['specialty'];
-				if($specialty==='primary'){	
-					echo "<li><a href='approval.php'>Approvals</a></li>";
-				}
-		}
-			
-			
-		if ($result->num_rows > 0) {
-			while ($row = $result->fetch_assoc()) {
-				echo "<tr>";
-				echo "<td>" . $row['appointment_id'] . "</td>";
-				echo "<td>" . $row['first_name'] . " " . $row['last_name'] ."</td>";
-				echo "<td>" . $row['date'] . "</td>";
-				echo "<td>" . $row['time'] . "</td>";
-				echo "<td>" . $row['street_address'] . " " . $row['city'] . " " . $row['state'] . " " . $row['zip'] . "</td>";
-				echo "</tr>";
-			}
-		} else {
-			echo "<tr><td colspan='5'>No appointments found.</td></tr>";
-		}
-		$conn->close();
-	?>
-	  	</tbody>
-	</table>
+	
 </html>
