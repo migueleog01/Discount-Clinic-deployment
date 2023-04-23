@@ -155,7 +155,7 @@ if ($result->num_rows > 0) {
         echo '<td>' . "approved" . '</td>';
       }
     } else {
-      echo '<td>' . "      " . '</td>';
+      echo '<td>' . "approved" . '</td>';
     }
 
     echo "<td>";
