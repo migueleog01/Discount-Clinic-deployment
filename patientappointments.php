@@ -2,7 +2,6 @@
   ob_start();
   session_start();
 ?>
-
 <!DOCTYPE html>
 <html>
     <header>
@@ -87,46 +86,9 @@
             <option value=""></option>
             </select>
 
-<!--
+
         <label for="state">Select a State:</label>
         <select id="state" name="state" onchange="my_fun(this.value);">
--->
-
-        <label for="doctor_state">Select a State:</label>
-
-
-<?php
-ob_start();
-
-
-include("dbh-inc.php");
-include("functions.php");
-
-  $query = "SELECT DISTINCT state 
-FROM discount_clinic.office, discount_clinic.address
-WHERE office.address_id = address.address_id";
-
-  $result = mysqli_query($conn, $query);
-
-  echo "<select id='doctor_state' name='doctor_state' onchange='my_fun(this.value);'>";
-
-  if(mysqli_num_rows($result) > 0)
-  {
-      echo "<option value=''></option>";
-
-    while ($rows = mysqli_fetch_assoc($result))
-    {
-      $state = $rows['state'];
-      echo "<option value='$state'>$state</option>";
-    }
-
-  }
-
-  echo "</select>";
-
-?>
-
-<!--
 
             <option value=""></option>
             <option value="AL">Alabama</option>
@@ -181,7 +143,6 @@ WHERE office.address_id = address.address_id";
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
--->
 
           <label for="office">Select an Office:</label>
           <select id="office" name="office" onchange="my_other_fun(this.value);">
