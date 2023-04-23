@@ -217,10 +217,6 @@ if (isset($_POST['report_type'])) {
         }
     }
 
-    //else {
-    //echo "<tr><td colspan='5'>No appointments found.</td></tr>";
-    //}
-
     // ... (Your existing PHP code to display the appointments table)
     else if ($report_type === 'patients') {
         $office_id = $_POST['office_id'];
@@ -315,10 +311,16 @@ if (isset($_POST['report_type'])) {
         } elseif ($doctor_type === 'specialist') {
             $doctor_type_condition = "AND doctor.specialty != 'Primary'";
         }
-        /*
-        $doctor_query = "SELECT DISTINCT doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number
-                        FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition";
-        */
+
+
+        // if the doctor has appointments, output the doctor info & office address w/ his/her appointment count
+        // else, output just the doctor info and office address
+
+        $doctor_query = "SELECT DISTINCT doctor.doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number 
+            FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office
+            WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id";
+
+/*
         $doctor_query = "SELECT DISTINCT doctor.doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number, appointment_count.count AS appointment_count
 FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office,
     (SELECT count(*) AS count, appointment.doctor_id
@@ -326,7 +328,11 @@ FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, di
      WHERE doctor.doctor_id = appointment.doctor_id AND appointment.deleted = 0 AND appointment.cancelled = 0
      GROUP BY appointment.doctor_id) AS appointment_count
 WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition AND doctor.doctor_id = appointment_count.doctor_id";
+*/
+
+
         $doctor_result = $conn->query($doctor_query);
+       
 
         echo '<table>';
         echo '<thead>';
@@ -373,14 +379,5 @@ WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID 
         }
     }
 }
-
-
-
-
-
-
-
-
-
 
 ?>
