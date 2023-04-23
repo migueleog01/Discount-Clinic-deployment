@@ -100,83 +100,81 @@ $user_data = check_login($conn);
     </tr>
   </thead>
   <tbody>
-    <?php
+  <?php
 
+$TEST = $user_data['username'];
+$query = "SELECT user_id FROM user WHERE username = '$TEST'";
+$result = mysqli_query($conn, $query);
+if ($result && mysqli_num_rows($result) > 0) {
+  $user_data = mysqli_fetch_assoc($result);
+  $user_id = $user_data['user_id'];
+}
 
-    $TEST = $user_data['username'];
-    $query = "SELECT user_id FROM user WHERE username = '$TEST'";
-    $result = mysqli_query($conn, $query);
-    if ($result && mysqli_num_rows($result) > 0) {
-      $user_data = mysqli_fetch_assoc($result);
-      $user_id = $user_data['user_id'];
-    }
+$query = "SELECT patient_id FROM patient WHERE user_id = '$user_id'";
+$result = mysqli_query($conn, $query);
 
+if ($result && mysqli_num_rows($result) > 0) {
+  $patient_data = mysqli_fetch_assoc($result);
+  $patient_id = $patient_data['patient_id'];
+}
 
+$start_date = date("Y-m-d", strtotime("-1 month"));
+$end_date = date("Y-m-d", strtotime("+1 month"));
 
-    $query = "SELECT patient_id FROM patient WHERE user_id = '$user_id'";
-    $result = mysqli_query($conn, $query);
+if (isset($_POST['submit_dates'])) {
+  $start_date = $_POST['start_date'];
+  $end_date = $_POST['end_date'];
+}
 
-    if ($result && mysqli_num_rows($result) > 0) {
-      $patient_data = mysqli_fetch_assoc($result);
-      $patient_id = $patient_data['patient_id'];
-    }
+// Modify SQL query to fetch appointments within the specified date range and include approval_bool
+$sql = "SELECT appointment.*, office.*, address.*, doctor.*, approval.approval_bool AS approval_status
+        FROM discount_clinic.appointment
+        JOIN discount_clinic.office ON appointment.office_id = office.office_id
+        JOIN discount_clinic.address ON office.address_id = address.address_id
+        JOIN discount_clinic.doctor ON appointment.doctor_id = doctor.doctor_id
+        LEFT JOIN discount_clinic.approval AS approval ON appointment.patient_id = approval.patient_id
+        WHERE appointment.patient_id = '$patient_id' AND appointment.cancelled = FALSE
+        AND date >= '$start_date' AND date <= '$end_date'";
 
+$result = $conn->query($sql);
 
-    // $sql = "SELECT * FROM appointment WHERE patient_id = '$patient_id' AND deleted = FALSE";
-    $start_date = date("Y-m-d", strtotime("-1 month"));
-    $end_date = date("Y-m-d", strtotime("+1 month"));
-  
-    // Update start and end dates based on user input
-    if (isset($_POST['submit_dates'])) {
-      $start_date = $_POST['start_date'];
-      $end_date = $_POST['end_date'];
-    }
-  
-    // Modify SQL query to fetch appointments within the specified date range
-    $sql = "SELECT *
-            FROM discount_clinic.appointment, discount_clinic.office, discount_clinic.address, discount_clinic.doctor
-            WHERE patient_id = '$patient_id' AND office.address_id = address.address_id AND appointment.office_id = office.office_id AND appointment.doctor_id = doctor.doctor_id AND appointment.cancelled = FALSE
-            AND date >= '$start_date' AND date <= '$end_date'";
-  
-
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row['appointment_id'] . "</td>";
-        echo "<td>" . $row['first_name'] . " " . $row['last_name'] . "</td>";
-        echo "<td>" . $row['date'] . "</td>";
-        echo "<td>" . $row['time'] . "</td>";
-        echo "<td>" . $row['street_address'] . " " . $row['city'] . " " . $row['state'] . " " . $row['zip'] . "</td>";
-        $status = $row['deleted'];
-        if ($row['specialty'] <> 'primary') {
-          if ($status = 1) {
-            echo '<td>' . "awaiting approval" . '</td>';
-          } else {
-            echo '<td>' . "approved" . '</td>';
-          }
-        } else {
-          echo '<td>' . "      " . '</td>';
-        }
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td>" . $row['appointment_id'] . "</td>";
+    echo "<td>" . $row['first_name'] . " " . $row['last_name'] . "</td>";
+    echo "<td>" . $row['date'] . "</td>";
+    echo "<td>" . $row['time'] . "</td>";
+    echo "<td>" . $row['street_address'] . " " . $row['city'] . " " . $row['state'] . " " . $row['zip'] . "</td>";
     
-        echo "<td>";
-        echo "<form method='POST' action='patienthomepage.php'>";
-        echo "<input type='hidden' name='appointment_id' value='" . $row['appointment_id'] . "'>";
-        if (isset($_POST['cancel']) && $_POST['appointment_id'] == $row['appointment_id']) {
-          $appointment_id = $_POST['appointment_id'];
-          $query = "UPDATE appointment SET cancelled = TRUE WHERE appointment_id = '$appointment_id'";
-          mysqli_query($conn, $query);
-          header("Refresh:0;");
-        } else {
-          echo "<button type='submit' name='cancel'>Cancel</button>";
-        }
-        echo "</form>";
-        echo "</td>";
-    
-        echo "</tr>";
+    $approval_status = $row['approval_status'];
+    if ($row['specialty'] <> 'primary') {
+      if ($approval_status == 0) {
+        echo '<td>' . "awaiting approval" . '</td>';
+      } else {
+        echo '<td>' . "approved" . '</td>';
       }
     } else {
+      echo '<td>' . "      " . '</td>';
+    }
+
+    echo "<td>";
+    echo "<form method='POST' action='patienthomepage.php'>";
+    echo "<input type='hidden' name='appointment_id' value='" . $row['appointment_id'] . "'>";
+    if (isset($_POST['cancel']) && $_POST['appointment_id'] == $row['appointment_id']) {
+      $appointment_id = $_POST['appointment_id'];
+      $query = "UPDATE appointment SET cancelled = TRUE WHERE appointment_id = '$appointment_id'";
+      mysqli_query($conn, $query);
+      header("Refresh:0;");
+    } else {
+      echo "<button type='submit' name='cancel'>Cancel</button>";
+    }
+    echo "</form>";
+    echo "</td>";
+
+    echo "</tr>";
+  }
+} else {
       echo "<tr><td colspan='6'>No appointments found.</td></tr>";
     }
 
