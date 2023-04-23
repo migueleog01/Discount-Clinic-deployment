@@ -75,7 +75,7 @@
 
   <div class="container">
     <h2>Appointment Form</h2>
-    <form action="" method="post">
+    <form action="" method="post" id="appointmentForm">
 
 
       <label for="date">Date:</label>
@@ -159,9 +159,8 @@
       <button type="submit" value = "Submit" id="submitBtn">Submit</button>
       
     </form>
-  </div>
-</body>
-<?php
+    <?php
+  // ...
       ob_start();
       //session_start();
 
@@ -169,6 +168,70 @@
       include("functions.php");
 
       $user_data = check_login($conn);
+      
+      $patient_query = "SELECT * 
+      FROM discount_clinic.patient, discount_clinic.user
+      WHERE patient.user_id = user.user_id AND patient.deleted = FALSE AND patient.user_id = '$user_data[user_ID]'";
+      $patient_result = mysqli_query($conn, $patient_query);
+      $patient_data = mysqli_fetch_assoc($patient_result);
+      //echo $patient_data['primary_doctor_id'];
+      //if this primary_doctor_id in doctor table has the boolean deleted marked as true then we need to print out must pick a new doctor
+
+      $result = mysqli_query($conn, "SELECT * FROM doctor WHERE doctor_id = '$patient_data[primary_doctor_id]'");
+      $doctor_data = mysqli_fetch_assoc($result);
+
+  if ($doctor_data['deleted'] == 1) {
+    echo "Must pick a new doctor";
+    echo "<script>
+            var form = document.getElementById('appointmentForm');
+            var inputs = form.getElementsByTagName('input');
+            var selects = form.getElementsByTagName('select');
+            var submitBtn = document.getElementById('submitBtn');
+            
+            for (var i = 0; i < inputs.length; i++) {
+              inputs[i].setAttribute('disabled', 'disabled');
+            }
+
+            for (var i = 0; i < selects.length; i++) {
+              selects[i].setAttribute('disabled', 'disabled');
+            }
+
+            submitBtn.setAttribute('disabled', 'disabled');
+          </script>";
+  } else {
+    echo "You are good to go";
+  }
+?>
+  </div>
+</body>
+<?php
+      ob_start();
+      //session_start();
+
+      //include("dbh-inc.php");
+      //include("functions.php");
+
+      //$user_data = check_login($conn);
+      
+      $patient_query = "SELECT * 
+      FROM discount_clinic.patient, discount_clinic.user
+      WHERE patient.user_id = user.user_id AND patient.deleted = FALSE AND patient.user_id = '$user_data[user_ID]'";
+      $patient_result = mysqli_query($conn, $patient_query);
+      $patient_data = mysqli_fetch_assoc($patient_result);
+      //echo $patient_data['primary_doctor_id'];
+      //if this primary_doctor_id in doctor table has the boolean deleted marked as true then we need to print out must pick a new doctor
+
+      $result = mysqli_query($conn, "SELECT * FROM doctor WHERE doctor_id = '$patient_data[primary_doctor_id]'");
+      $doctor_data = mysqli_fetch_assoc($result);
+      //echo $doctor_data['deleted']; 
+      /*
+      if($doctor_data['deleted'] == 1){
+        //echo "Must pick a new doctor";
+      }
+      else{
+        echo "You are good to go";
+      }
+      */
 
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               //echo "hello";
