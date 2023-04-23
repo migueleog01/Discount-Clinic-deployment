@@ -319,14 +319,26 @@ if (isset($_POST['report_type'])) {
         $doctor_query = "SELECT DISTINCT doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number
                         FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition";
         */
+        /*
         $doctor_query = "SELECT DISTINCT doctor.doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number, appointment_count.count AS appointment_count
-FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office,
-    (SELECT count(*) AS count, appointment.doctor_id
-     FROM discount_clinic.doctor, discount_clinic.appointment
-     WHERE doctor.doctor_id = appointment.doctor_id AND appointment.deleted = 0 AND appointment.cancelled = 0
-     GROUP BY appointment.doctor_id) AS appointment_count
-WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition AND doctor.doctor_id = appointment_count.doctor_id";
+        FROM discount_clinic.office, discount_clinic.address, discount_clinic.doctor, discount_clinic.doctor_office,
+            (SELECT count(*) AS count, appointment.doctor_id
+            FROM discount_clinic.doctor, discount_clinic.appointment
+            WHERE doctor.doctor_id = appointment.doctor_id AND appointment.deleted = 0 AND appointment.cancelled = 0
+            GROUP BY appointment.doctor_id) AS appointment_count
+        WHERE doctor.doctor_id=doctor_office.DID AND office.office_id=doctor_office.OID AND office.office_id = '$office_id' AND office.address_id = address.address_id $doctor_type_condition AND doctor.doctor_id = appointment_count.doctor_id";
+                $doctor_result = $conn->query($doctor_query);
+        */        
+        $doctor_query = "SELECT doctor.doctor_id, doctor.first_name AS first_name, doctor.middle_initial AS middle_initial, doctor.last_name AS last_name, doctor.specialty, doctor.DOB AS DOB, doctor.gender AS gender, doctor.phone_number AS phone_number, COUNT(appointment.appointment_id) AS appointment_count
+                     FROM discount_clinic.doctor
+                     LEFT JOIN discount_clinic.appointment ON doctor.doctor_id = appointment.doctor_id AND appointment.deleted = 0 AND appointment.cancelled = 0
+                     JOIN discount_clinic.doctor_office ON doctor.doctor_id = doctor_office.DID
+                     JOIN discount_clinic.office ON office.office_id = doctor_office.OID
+                     WHERE office.office_id = '$office_id' $doctor_type_condition
+                     GROUP BY doctor.doctor_id
+                     ORDER BY doctor.last_name, doctor.first_name";
         $doctor_result = $conn->query($doctor_query);
+        
 
         echo '<table>';
         echo '<thead>';
