@@ -358,5 +358,8 @@ END $$
 DELIMITER ;
 
 
+ALTER TABLE discount_clinic.appointment ADD COLUMN cancelled BOOLEAN DEFAULT FALSE AFTER deleted;
+
+
 USE discount_clinic;
 INSERT INTO user (role, username, password) VALUES ('admin', 'admin', '123');
