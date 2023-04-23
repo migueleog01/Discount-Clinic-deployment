@@ -83,5 +83,12 @@ session_start();
 	</header>
 </body>
     
+	<h2><center>Hello Doctor, <?php $user_data = check_login($conn); echo $user_data['username']; ?></center></h2>
+
+	<table>
+		
+	  	<tbody>	
 	
+	  	</tbody>
+	</table>
 </html>
