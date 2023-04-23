@@ -202,7 +202,7 @@ WHERE office.address_id = address.address_id";
 </body>
 <?php
       ob_start();
-      session_start();
+      //session_start();
 
       include("dbh-inc.php");
       include("functions.php");
