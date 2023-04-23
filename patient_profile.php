@@ -9,40 +9,40 @@ $user_id = $user_data['user_ID'];
 
 $patient = "SELECT patient.first_name AS patient_first_name, patient.middle_initial AS patient_middle_initial, patient.last_name AS patient_last_name, patient.gender AS patient_gender, patient.phone_number AS patient_phone_number, patient.DOB AS patient_dob, total_owe, e_first_name, e_middle_initial, e_last_name, emergency_contact.phone_number AS ec_phone_number, relationship, street_address, zip, state, city, doctor.first_name AS doctor_first_name, doctor.middle_initial AS doctor_middle_intital, doctor.last_name AS doctor_last_name, doctor.phone_number AS doctor_phone_number, specialty
 FROM discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.user, discount_clinic.address, discount_clinic.doctor
-WHERE patient.patient_id = emergency_contact.patient_id AND user.user_id = patient.user_id AND patient.address_id = address.address_id AND doctor.doctor_id = patient.primary_doctor_id AND user.user_id = '$user_id'";
+WHERE patient.patient_id = emergency_contact.patient_id AND user.user_id = patient.user_id AND patient.address_id = address.address_id AND doctor.doctor_id = patient.primary_doctor_id AND doctor.deleted = FALSE AND user.user_id = '$user_id'";
 
 
-$patient_result = mysqli_query($conn, $patient);
+$patient_information = "SELECT patient.first_name AS patient_first_name, patient.middle_initial AS patient_middle_initial, patient.last_name AS patient_last_name, patient.gender AS patient_gender, patient.phone_number AS patient_phone_number, patient.DOB AS patient_dob, total_owe, e_first_name, e_middle_initial, e_last_name, emergency_contact.phone_number AS ec_phone_number, relationship, street_address, zip, state, city
+FROM discount_clinic.patient, discount_clinic.emergency_contact, discount_clinic.user, discount_clinic.address
+WHERE patient.patient_id = emergency_contact.patient_id AND user.user_id = patient.user_id AND patient.address_id = address.address_id AND user.user_id = '$user_id'";
+
+
+
+$patient_result = mysqli_query($conn, $patient_information);
 
 if ($patient_result && mysqli_num_rows($patient_result) > 0) {
-	$user_data = mysqli_fetch_assoc($patient_result);
-	$user_first_name = $user_data['patient_first_name'];
-	$user_middle_initial =  $user_data['patient_middle_initial'];
-	$user_last_name =  $user_data['patient_last_name'];
-	$gender = $user_data['patient_gender'];
-	$phone_number = $user_data['patient_phone_number'];
-	$DOB = $user_data['patient_dob'];
-	$total_owe = $user_data['total_owe'];
+	$patient_result = mysqli_fetch_assoc($patient_result);
+	$user_first_name = $patient_result['patient_first_name'];
+	$user_middle_initial =  $patient_result['patient_middle_initial'];
+	$user_last_name =  $patient_result['patient_last_name'];
+	$gender = $patient_result['patient_gender'];
+	$phone_number = $patient_result['patient_phone_number'];
+	$DOB = $patient_result['patient_dob'];
+	$total_owe = $patient_result['total_owe'];
 
 
-	$street_address = $user_data['street_address'];
-	$city = $user_data['city'];
-	$state = $user_data['state'];
-	$zip = $user_data['zip'];
+	$street_address = $patient_result['street_address'];
+	$city = $patient_result['city'];
+	$state = $patient_result['state'];
+	$zip = $patient_result['zip'];
 
 
-	$e_first_name = $user_data['e_first_name'];
-	$e_middle_initial = $user_data['e_middle_initial'];
-	$e_last_name = $user_data['e_last_name'];
-	$e_phone_number = $user_data['ec_phone_number'];
-	$relationship = $user_data['relationship'];
-
-	$doctor_first_name = $user_data['doctor_first_name'];
-	$doctor_mi = $user_data['doctor_middle_intital'];
-	$doctor_last_name = $user_data['doctor_last_name'];
-	$doctor_phone_number = $user_data['doctor_phone_number'];
-	$specialty = $user_data['specialty'];
-}
+	$e_first_name = $patient_result['e_first_name'];
+	$e_middle_initial = $patient_result['e_middle_initial'];
+	$e_last_name = $patient_result['e_last_name'];
+	$e_phone_number = $patient_result['ec_phone_number'];
+	$relationship = $patient_result['relationship'];
+} 
 
 ?>
 
@@ -128,9 +128,27 @@ if ($patient_result && mysqli_num_rows($patient_result) > 0) {
 	?>
 	<h2>Primary Doctor Information</h2>
 	<?php	
+
+	$primary_doctor_information = "SELECT doctor.first_name AS D_first_name, doctor.middle_initial AS D_middle_initial, doctor.last_name AS D_last_name, doctor.phone_number AS D_phone_number, specialty
+	FROM discount_clinic.doctor, discount_clinic.patient
+	WHERE patient.primary_doctor_id = doctor.doctor_id AND doctor.deleted = FALSE AND patient.user_id = '$user_id'";
+
+	$primary_doctor_result = mysqli_query($conn, $primary_doctor_information);
+
+
+	if($primary_doctor_result && mysqli_num_rows($primary_doctor_result) > 0){
+		$primary_doctor_result = mysqli_fetch_assoc($primary_doctor_result);
+		$doctor_first_name = $primary_doctor_result['D_first_name'];
+		$doctor_mi = $primary_doctor_result['D_middle_initial'];
+		$doctor_last_name = $primary_doctor_result['D_last_name'];
+		$doctor_phone_number = $primary_doctor_result['D_phone_number'];
+		$specialty = $primary_doctor_result['specialty'];
 		echo "Primary Doctor Name: " . $doctor_first_name . " " . $doctor_mi . " " . $doctor_last_name . "<br>";
 		echo "Phone Number: " . $doctor_phone_number . "<br>";
 		echo "Specialty: " . $specialty . "<br>";
+	} else {
+		echo "No primary doctor assigned.";
+	}
 	?>
 	<?php
 	if (!isset($_SESSION['csrf_token'])) {
