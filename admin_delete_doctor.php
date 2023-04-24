@@ -105,9 +105,10 @@
                             $delete_appointments = "UPDATE discount_clinic.appointment SET deleted = TRUE WHERE doctor_id = $doctor_id";
                             mysqli_query($conn, $delete_appointments);
 
+				header("Refresh:0;");
 
-                            header("admin_delete_doctor.php");
-                            echo "<button type='submit' name='delete'>Delete</button>";
+                            //header("admin_delete_doctor.php");
+                            //echo "<button type='submit' name='delete'>Delete</button>";
                         } else {
                             echo "<button type='submit' name='delete'>Delete</button>";
                         }
