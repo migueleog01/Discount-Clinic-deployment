@@ -94,7 +94,7 @@
 
 
                             //header("admin_delete_office.php");
-                            echo "<button type='submit' name='delete'>Delete</button>";
+                            //echo "<button type='submit' name='delete'>Delete</button>";
                         } else {
                             echo "<button type='submit' name='delete'>Delete</button>";
                         }
