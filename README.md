@@ -1,10 +1,11 @@
-# Discount-Clinic
-Medical Clinic Project
 Discount Clinic Database System
 
-Team 4 Project Link: https://discount-clinic.azurewebsites.net/login.php
-
+Team 4 project web link: https://discount-clinic.azurewebsites.net/login.php
 Link to project code: https://github.com/migueleog01/Discount-Clinic-deployment
+
+The GitHub Discount-Clinic-deployment folder contains all of the project files, including the sql dump file named mysql_Dump_File.sql.
+
+The database connection details are in dbh-inc.php.
 
 Purpose:
 
@@ -12,13 +13,53 @@ This database is designed to streamline appointment scheduling and management of
 
 The database was set up using Microsoft Azure, and MySQL was used to add triggers and create tables for data. The front-end was designed using HTML and CSS, while PHP was used to connect to the back-end database, resulting in a well-organized user-interface for efficient use. The team behind this database application is committed to delivering a successful project outcome while prioritizing data privacy and security through the use of secure access by user authentication. 
 
-Installation:
+Installation and Testing:
 
-To install the database system, follow these steps:
+To test the website in the cloud:
 
-1. Install a compatible version of MySQL.
-2. Create a new database in your MySQL.
-3. Run the SQL dump file titled ‘mysql_Dump_File.sql` to create the necessary tables and data in your new database.
+https://discount-clinic.azurewebsites.net/
+
+To access the web application and database internals, follow these steps:
+
+Download the latest available version of XAMPP here: https://www.apachefriends.org/download.html
+
+If your installer does not begin XAMPP installation and instead throws a “‘xampp-osx-8.2.0-0-installer’ cannot be opened because the developer cannot be verified”, go to Privacy & Security under System Settings and allow the application access to your Downloads folder.
+
+Once the installation finishes, XAMPP will open. 
+Go to Manage Servers.
+Start the ProFTPD and Apache Web Server servers.
+
+If the XAMPP application folder is not already in Applications, move it there.
+
+Next, download the project folder from GitHub, as seen here: https://github.com/migueleog01/Discount-Clinic-deployment
+
+After unzipping the folder files, move your project folder inside of your XAMPP folder. From there, move the project folder inside of the htdocs folder. 
+
+To access the database in the cloud, you will need to connect to it using the login credentials defined in dbh-inc.php. You can use a database client like MySQL Workbench to connect to the database. Download version 8.0.25 of MySQL Workbench: https://downloads.mysql.com/archives/workbench/
+
+(Note that you may also download a local version of the database from the project folder, though it is not necessary. Run the SQL dump file titled mysql_Dump_File.sql to create the necessary tables and data in your new database.)
+
+After installing MySQL Workbench, move it to your Applications folder. 
+
+Open MySQL Workbench. On the Welcome page, you will see a plus icon next to MySQL Connections. Click on this to create a new instance. The access details are in dbh-inc.php. Here is what each field should look like under Parameters:
+
+
+Connection Name: ​​Local instance MySQL80
+Connection Method: Standard (TCP/IP)
+Port: 3306
+Hostname: discountclinic.mysql.database.azure.com
+Username: adminLogin
+
+
+Under SSL:
+
+In the SSL CERT File field, link to the path where DigiCertGlobalRootCA.crt.pem is located. This file is inside of the project folder that you moved to Applications => XAMPP => htdocs.
+
+
+
+Open your browser and type in the address bar: localhost/<yourprojectfoldername> to test the website.
+
+Note: If you are not using XAMPP, which has inbuilt PHP and a PHP server, you will need to install a suitable web server and PHP environment to run the website locally.
 
 Usage:
 
@@ -31,11 +72,11 @@ Username: admin
 Password: 123
 
 Patient
-Username: pjared/prehman/prao
+Username: pjared/pessani/prao
 Password: 123
 
 Doctor
-Username: dben/damanda/dmiguel/dsteven/duma
+Username: dben/damanda/dmiguel/dsteven/duma/dmason
 Password: 123
 
 
@@ -85,11 +126,4 @@ When logged in as an admin, you have the ability to view all the reports for the
 When you choose the report type of appointment, you will be prompted to choose a doctor type of either primary or specialist
 If you choose a patient as the report type, you can filter the data based on their gender and age range
 If you choose a doctor as the report type, you can filter based on whether the doctor is primary or specialist
-
-Files:
-The prefix of each file is a given indicator of which user type the page is for. For example, ‘admin_’ refers to pages made for the admin. 
-
-
-
-
 
