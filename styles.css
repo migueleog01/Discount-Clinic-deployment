@@ -1,54 +1,74 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-/*
 body {
-  background-image: url('macintoshHD/Applications/MAMP/htdocs/discountclinic/Blue Waves Abstract Background.jpeg');
-  background-repeat: no-repeat;
-  background-size: cover;
+  font-family: 'Roboto', sans-serif;
 }
-*/
 
 h1 {
-    font-size: 50px;
-    font-family: 'Abril Fatface', cursive;
+  font-size: 50px;
+  font-family: 'Abril Fatface', cursive;
 }
 
 h2 {
-    font-size: 30px;
+  font-size: 30px;
 }
 
-
 h3 {
-    font-size: 25px;
-    margin: 0;
+  font-size: 25px;
+  margin: 0;
 }
 
 h4 {
-    font-size: 25px;
-    margin: 0;
+  font-size: 25px;
+  margin: 0;
 }
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: grey;
-  }
-  
-  li {
-    float: left;
-  }
-  
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  /* Change the link color to #111 (black) on hover */
-  li a:hover {
-    background-color: #111;
-  }
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(90deg, #36a8f5, #36a8f5);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff5e5e;
+  transform: translateY(-2px);
+}
+
+.logo {
+  float: left;
+  padding: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  line-height: 20px;
+  margin-top: 8px;
+}
+
+.logo:hover {
+  color: white;
+  background-color: transparent;
+}
