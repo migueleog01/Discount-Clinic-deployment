@@ -1,55 +1,20 @@
-.container {
-  width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #ccc;
-  margin-top: 60px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
 }
-
-form {
-  display: grid;
-  gap: 10px;
-  
-  
-}
-
-label {
-  font-weight: bold;
-}
-
-input, textarea {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-button {
-  padding: 5px 20px;
-  border-radius: 5px;
-  border: none;
-  background-color: #36a8f5;
-  color: #fff;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0069d9;
-}
-
 
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #fff;
+  background-color: #36a8f5;
   padding: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-
 
 nav ul {
   display: flex;
@@ -66,30 +31,53 @@ nav li:first-child {
 
 nav a {
   text-decoration: none;
-  color: #000;
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
 }
 
 nav a:hover {
-  color: #ffff;
+  color: #ff5e5e;
 }
 
-
-body {
-  margin: 0;
-  padding: 0;
-}
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #36a8f5; 
-
-
-
-
-
+.container {
+  width: 500px;
+  margin: 0 auto;
   padding: 20px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  margin-top: 60px;
+  background-color: #fff;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input, textarea {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 5px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #1c1c1c;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #ff5e5e;
 }
 
 .hidden {
