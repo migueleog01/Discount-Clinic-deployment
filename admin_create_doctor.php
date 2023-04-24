@@ -168,8 +168,8 @@ session_start();
         ($new_doctor_id, $new_office_id)";
         mysqli_query($conn, $sql_office);
 	echo "Doctor added successfully";
-
-
+        } else {
+            echo "Invalid input";
         }
 
         mysqli_close($conn);
