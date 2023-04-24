@@ -173,8 +173,8 @@ if (isset($_POST['report_type'])) {
             $start_date = $_POST['start_date'];
             $end_date = $_POST['end_date'];
         } else {
-            $start_date = $current_date;
-            $end_date = $end_date;
+            $start_date = '1900-01-01';
+            $end_date = '9999-12-31';
         }
 
         $appointment_query = "SELECT DISTINCT appointment.*, patient.first_name AS patient_first_name, patient.last_name AS patient_last_name, doctor.first_name AS doctor_first_name, doctor.last_name AS doctor_last_name, address.*
