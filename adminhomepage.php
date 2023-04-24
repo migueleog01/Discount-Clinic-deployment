@@ -77,7 +77,7 @@ include("functions.php");
             // ... (Your existing PHP code to fetch office addresses)
             $office_address_query = "SELECT * 
                 FROM discount_clinic.office, discount_clinic.address
-                WHERE office.address_id = address.address_id AND office.deleted=0";
+                WHERE office.address_id = address.address_id";
             $office_address_result = mysqli_query($conn, $office_address_query);
 
 
@@ -169,9 +169,14 @@ if (isset($_POST['report_type'])) {
     if ($report_type === 'appointments') {
         $office_id = $_POST['office_id'];
 
-        $start_date = isset($_POST['start_date']) && !empty($_POST['start_date']) ? $_POST['start_date'] : '1900-01-01';
-        $end_date = isset($_POST['end_date']) && !empty($_POST['end_date']) ? $_POST['end_date'] : '9999-12-31';
-       
+        if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
+            $start_date = $_POST['start_date'];
+            $end_date = $_POST['end_date'];
+        } else {
+            $start_date = $current_date;
+            $end_date = $end_date;
+        }
+
         $appointment_query = "SELECT DISTINCT appointment.*, patient.first_name AS patient_first_name, patient.last_name AS patient_last_name, doctor.first_name AS doctor_first_name, doctor.last_name AS doctor_last_name, address.*
                               FROM discount_clinic.office, discount_clinic.address, discount_clinic.appointment, discount_clinic.patient, discount_clinic.doctor
                               WHERE appointment.office_id = office.office_id
@@ -179,7 +184,6 @@ if (isset($_POST['report_type'])) {
                               AND appointment.doctor_id = doctor.doctor_id
                               AND office.office_id = '$office_id'
                               AND office.address_id = address.address_id
-                              AND appointment.cancelled=FALSE
                               AND date >= '$start_date' AND date <= '$end_date'
                               ORDER BY date, time";
         $address_result = $conn->query($appointment_query);
@@ -226,31 +230,26 @@ if (isset($_POST['report_type'])) {
         $max_age = isset($_POST['max_age']) && !empty($_POST['max_age']) ? $_POST['max_age'] : null;
     
         $patient_query = "SELECT DISTINCT
-                            address.street_address,
-                            address.city,
-                            address.state,
-                            address.zip,
-                            patient.patient_id,
-                            patient.first_name,
-                            patient.middle_initial,
-                            patient.last_name,
-                            patient.gender,
-                            patient.phone_number AS patient_phone_number,
-                            patient.DOB,
-                            emergency_contact.phone_number AS e_phone_number
-                          FROM
-                            discount_clinic.office,
-                            discount_clinic.patient,
-                            discount_clinic.emergency_contact,
-                            discount_clinic.address,
-                            discount_clinic.doctor,
-                            discount_clinic.doctor_office
-                          WHERE
-                            doctor_office.DID = doctor.doctor_id
-                            AND doctor_office.OID = office.office_id
-                            AND office.office_id = '$office_id'
-                            AND patient.address_id = address.address_id
-                            AND emergency_contact.patient_id = patient.patient_id";
+                    address.street_address,
+                    address.city,
+                    address.state,
+                    address.zip,
+                    patient.patient_id,
+                    patient.first_name,
+                    patient.middle_initial,
+                    patient.last_name,
+                    patient.gender,
+                    patient.phone_number AS patient_phone_number,
+                    patient.DOB,
+                    emergency_contact.phone_number AS e_phone_number
+                  FROM
+                    discount_clinic.patient
+                    INNER JOIN discount_clinic.address ON patient.address_id = address.address_id
+                    INNER JOIN discount_clinic.emergency_contact ON emergency_contact.patient_id = patient.patient_id
+                    INNER JOIN discount_clinic.appointment ON appointment.patient_id = patient.patient_id
+                  WHERE
+                    appointment.office_id = '$office_id'";
+
     
         if ($gender !== 'all') {
             $patient_query .= " AND patient.gender = '$gender'";
