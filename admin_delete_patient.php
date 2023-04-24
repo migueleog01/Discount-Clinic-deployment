@@ -116,6 +116,7 @@
                             // Delete user connected to patient
                             $delete_user = "UPDATE discount_clinic.user SET deleted = TRUE WHERE user_id = $user_id";
                             mysqli_query($conn, $delete_user);
+                            header("Refresh:0");
 
                             
                             header("admin_delete_patient.php");
