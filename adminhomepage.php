@@ -169,14 +169,9 @@ if (isset($_POST['report_type'])) {
     if ($report_type === 'appointments') {
         $office_id = $_POST['office_id'];
 
-        if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
-            $start_date = $_POST['start_date'];
-            $end_date = $_POST['end_date'];
-        } else {
-            $start_date = '1900-01-01';
-            $end_date = '9999-12-31';
-        }
-
+        $start_date = isset($_POST['start_date']) && !empty($_POST['start_date']) ? $_POST['start_date'] : '1900-01-01';
+        $end_date = isset($_POST['end_date']) && !empty($_POST['end_date']) ? $_POST['end_date'] : '9999-12-31';
+       
         $appointment_query = "SELECT DISTINCT appointment.*, patient.first_name AS patient_first_name, patient.last_name AS patient_last_name, doctor.first_name AS doctor_first_name, doctor.last_name AS doctor_last_name, address.*
                               FROM discount_clinic.office, discount_clinic.address, discount_clinic.appointment, discount_clinic.patient, discount_clinic.doctor
                               WHERE appointment.office_id = office.office_id
