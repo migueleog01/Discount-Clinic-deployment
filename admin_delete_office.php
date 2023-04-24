@@ -90,9 +90,10 @@
                             $office_id = $_POST['office_id'];
                             $delete_office = "UPDATE discount_clinic.office SET deleted = TRUE WHERE office_id = $office_id";
                             mysqli_query($conn, $delete_office);
+				header("Refresh:0;");
 
 
-                            header("admin_delete_office.php");
+                            //header("admin_delete_office.php");
                             echo "<button type='submit' name='delete'>Delete</button>";
                         } else {
                             echo "<button type='submit' name='delete'>Delete</button>";
