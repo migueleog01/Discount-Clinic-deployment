@@ -230,25 +230,27 @@ if (isset($_POST['report_type'])) {
         $max_age = isset($_POST['max_age']) && !empty($_POST['max_age']) ? $_POST['max_age'] : null;
     
         $patient_query = "SELECT DISTINCT
-                    address.street_address,
-                    address.city,
-                    address.state,
-                    address.zip,
-                    patient.patient_id,
-                    patient.first_name,
-                    patient.middle_initial,
-                    patient.last_name,
-                    patient.gender,
-                    patient.phone_number AS patient_phone_number,
-                    patient.DOB,
-                    emergency_contact.phone_number AS e_phone_number
-                  FROM
-                    discount_clinic.patient
-                    INNER JOIN discount_clinic.address ON patient.address_id = address.address_id
-                    INNER JOIN discount_clinic.emergency_contact ON emergency_contact.patient_id = patient.patient_id
-                    INNER JOIN discount_clinic.appointment ON appointment.patient_id = patient.patient_id
-                  WHERE
-                    appointment.office_id = '$office_id'";
+                address.street_address,
+                address.city,
+                address.state,
+                address.zip,
+                patient.patient_id,
+                patient.first_name,
+                patient.middle_initial,
+                patient.last_name,
+                patient.gender,
+                patient.phone_number AS patient_phone_number,
+                patient.DOB,
+                emergency_contact.e_first_name,  -- Include the e_first_name column here
+                emergency_contact.phone_number AS e_phone_number
+              FROM
+                discount_clinic.patient
+                INNER JOIN discount_clinic.address ON patient.address_id = address.address_id
+                INNER JOIN discount_clinic.emergency_contact ON emergency_contact.patient_id = patient.patient_id
+                INNER JOIN discount_clinic.appointment ON appointment.patient_id = patient.patient_id
+              WHERE
+                appointment.office_id = '$office_id'";
+
 
     
         if ($gender !== 'all') {
@@ -274,6 +276,7 @@ if (isset($_POST['report_type'])) {
         echo '<th>DOB</th>';
         echo '<th>Gender</th>';
         echo '<th>Phone</th>';
+        echo '<th>Emergency First Name</th>';
         echo '<th>Emergency Phone</th>';
         echo '</tr>';
         echo '</thead>';
@@ -288,6 +291,7 @@ if (isset($_POST['report_type'])) {
                 echo "<td>" . $row['DOB'] . "</td>";
                 echo "<td>" . $row['gender'] . "</td>";
                 echo "<td>" . $row['patient_phone_number'] . "</td>";
+                echo "<td>" . $row['e_first_name'] . "</td>";
                 echo "<td>" . $row['e_phone_number'] . "</td>";
                 echo "</tr>";
             }

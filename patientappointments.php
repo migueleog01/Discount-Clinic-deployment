@@ -133,7 +133,7 @@
       $doctor_data = mysqli_fetch_assoc($result);
 
   if ($doctor_data['deleted'] == 1) {
-    echo "Must pick a new doctor";
+    echo "Must pick a new doctor, click on Profile in the navigation bar to do so.";
     echo "<script>
             var form = document.getElementById('appointmentForm');
             var inputs = form.getElementsByTagName('input');
@@ -151,7 +151,7 @@
             submitBtn.setAttribute('disabled', 'disabled');
           </script>";
   } else {
-    echo "You are good to go";
+    //echo "You are good to go";
   }
 ?>
   </div>
