@@ -170,8 +170,8 @@ if (isset($_POST['report_type'])) {
         $office_id = $_POST['office_id'];
 
         if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
-            $start_date = $_POST['start_date'];
-            $end_date = $_POST['end_date'];
+            $start_date = isset($_POST['start_date']) && !empty($_POST['start_date']) ? $_POST['start_date'] : '1900-01-01';
+            $end_date = isset($_POST['end_date']) && !empty($_POST['end_date']) ? $_POST['end_date'] : '9999-12-31';
         } else {
             $start_date = $current_date;
             $end_date = $end_date;
