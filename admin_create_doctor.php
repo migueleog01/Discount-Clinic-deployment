@@ -167,6 +167,7 @@ session_start();
         $sql_office = "INSERT INTO discount_clinic.doctor_office (DID, OID) VALUES
         ($new_doctor_id, $new_office_id)";
         mysqli_query($conn, $sql_office);
+	echo "Doctor added successfully";
 
 
         }
