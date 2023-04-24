@@ -17,10 +17,15 @@ session_start();
         <h1><center>Create Doctor Form</center></h1>
         <nav>
             <ul>
+                <ul>
                 <li class ="active"><a href="adminhomepage.php">Home</a></li>
                 <li><a href="admin_create_doctor.php">Create Doctor</a></li>
                 <li><a href="admin_create_office.php">Create Office</a></li>
+                <li><a href="admin_delete_patient.php">Delete Patient</a></li>
+                <li><a href="admin_delete_doctor.php">Delete Doctor</a></li>
+                <li><a href="admin_delete_office.php">Delete Office</a></li>
 				<li><a href="logout.php">Logout</a></li>
+            </ul>
             </ul>
         </nav>
     </header>
