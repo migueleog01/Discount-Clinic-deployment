@@ -5,19 +5,18 @@
 <!DOCTYPE html>
 <html>
     <header>
-        <div class="logo">
-          <h1>Discount Clinic</h1>
-        </div>
-        <nav>
-          <ul>
-            <li><a href="patienthomepage.php">Home</a></li>
-            <li><a href="appointments.html">Appointments</a></li>
-            <li><a href="transactions.html">Transactions</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            
-          </ul>
-        </nav>
-      </header>
+		<h1>
+		</h1>
+		<nav>
+			<ul>
+				<li class="active"><a href="index.php">Home</a></li>
+				<li><a href="patient_profile.php">Profile</a></li>
+				<li><a href="patientappointments.php">Schedule Appointment</a></li>
+				<li><a href="transactions.php">Transactions</a></li>
+				<li><a href="logout.php">Logout</a></li>
+			</ul>
+		</nav>
+	</header>
 <head>
 
   <title>Appointment Making System</title>
