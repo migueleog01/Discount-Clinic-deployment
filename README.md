@@ -3,6 +3,7 @@ Medical Clinic Project
 Discount Clinic Database System
 
 Team 4 Project Link: https://discount-clinic.azurewebsites.net/login.php
+
 Link to project code: https://github.com/migueleog01/Discount-Clinic-deployment
 
 Purpose:
