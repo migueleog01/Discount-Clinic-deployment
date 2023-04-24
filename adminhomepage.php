@@ -179,6 +179,7 @@ if (isset($_POST['report_type'])) {
                               AND appointment.doctor_id = doctor.doctor_id
                               AND office.office_id = '$office_id'
                               AND office.address_id = address.address_id
+                              AND appointment.cancelled=FALSE
                               AND date >= '$start_date' AND date <= '$end_date'
                               ORDER BY date, time";
         $address_result = $conn->query($appointment_query);
