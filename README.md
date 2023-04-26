@@ -57,7 +57,7 @@ In the SSL CERT File field, link to the path where DigiCertGlobalRootCA.crt.pem 
 
 
 
-Open your browser and type in the address bar: localhost/<yourprojectfoldername> to test the website.
+Open your browser and type in the address bar: localhost/yourprojectfoldername to test the website.
 
 Note: If you are not using XAMPP, which has inbuilt PHP and a PHP server, you will need to install a suitable web server and PHP environment to run the website locally.
 
@@ -105,6 +105,8 @@ Navigate to the schedule appointments page to which you are given the option to 
 Based on the chosen state, offices are offered to the user to pick from
 Consequently, choosing an office gives the user an option to choose a doctor from that office
 Can choose from any primary doctor or specialist (however, specialist appointments require primary doctor approval)
+
+*Note that when choosing an office, in order to populate the doctor dropdown, you will have to toggle once back and forth between the office you want to select and another listed office within the same state. This is a minor bug.
 
 Viewing Transactions
 Navigate to transactions where payment method can be selected from the drop down menu and the amount due can be paid
