@@ -82,50 +82,57 @@ Password: 123
 
 Here are some examples of common usage scenarios for these various users:
 
+
+
 Patients: 
 
-Registering
-Can only be done by patients
-Choose your primary doctor
-Redirected from signup page to patient registration form
+Registering:
+This can only be done by patients.
+Choose your primary doctor.
+You will be redirected from the signup page to the patient registration form.
 
-Viewing appointments (past, current, future)
-Navigate to home, where you’ll be directed when you sign in
-Specialist appointment status will be viewable 
-Option to cancel appointments is also present
-Appointments can be filtered by date
+Viewing appointments (past, current, future):
+Navigate to home, where you’ll be directed when you sign in.
+Specialist appointment status will be viewable.
+The option to cancel appointments is also present.
+Appointments can be filtered by date.
 
-Patient Profile Page
-By navigating to the profile page, personal and emergency info can be easily updated
-Patient can change primary doctor or be presented with the option to delete their account
-Clicking one of the aforementioned buttons will direct you to a secondary page where these actions can be carried out
+Patient Profile Page:
+By navigating to the profile page, personal and emergency info can be easily updated.
+Patients can change their primary doctor or delete their account.
+Clicking one of the aforementioned buttons will direct you to a secondary page where these actions can be carried out.
 
-Scheduling Appointments
-Navigate to the schedule appointments page to which you are given the option to filter by date, state, and time
-Based on the chosen state, offices are offered to the user to pick from
-Consequently, choosing an office gives the user an option to choose a doctor from that office
-Can choose from any primary doctor or specialist (however, specialist appointments require primary doctor approval)
+Scheduling Appointments:
+Navigate to the schedule appointments page to which you are given the option to filter by date, state, and time.
+Based on the chosen state, offices are offered to the user to pick from.
+Consequently, choosing an office gives the user an option to choose a doctor from that office.
+Can choose from any primary doctor or specialist (however, specialist appointments require primary doctor approval).
 
 *Note that when choosing an office, in order to populate the doctor dropdown, you will have to toggle once back and forth between the office you want to select and another listed office within the same state. This is a minor bug.
 
-Viewing Transactions
-Navigate to transactions where payment method can be selected from the drop down menu and the amount due can be paid
-Negative balances can occur if payment is overpaid
+Viewing Transactions:
+Navigate to transactions where payment method can be selected from the drop down menu and the amount due can be paid.
+Negative balances can occur if payment is overpaid.
+
+
+
 Doctor: 
 
-Viewing and approving appointments
-Go to the home page upon login
-Appointments page and home page will display the same information 
-Go to Approval to approve patient specialist appointments
+Viewing and approving appointments:
+Go to the home page upon login.
+Appointments page and home page will display the same information.
+Go to Approval to approve patient specialist appointments.
 
-Updating personal information
-Navigate to the Profile page to update personal information
-Name, gender, phone number, and specialty can be updated
+Updating personal information:
+Navigate to the Profile page to update personal information.
+Name, gender, phone number, and specialty can be updated.
+
+
 
 Admin: 
 
-When logged in as an admin, you have the ability to view all the reports for the clinic website. These include reports of the appointments, patients, and doctors at any specific office
-When you choose the report type of appointment, you will be prompted to choose a doctor type of either primary or specialist
-If you choose a patient as the report type, you can filter the data based on their gender and age range
-If you choose a doctor as the report type, you can filter based on whether the doctor is primary or specialist
+When logged in as an admin, you have the ability to view all the reports for the clinic website. These include reports of the appointments, patients, and doctors at any specific office.
+When you choose the report type of appointment, you will be prompted to choose a doctor type of either primary or specialist.
+If you choose a patient as the report type, you can filter the data based on their gender and age range.
+If you choose a doctor as the report type, you can filter based on whether the doctor is primary or specialist.
 
