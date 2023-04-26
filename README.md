@@ -57,7 +57,7 @@ In the SSL CERT File field, link to the path where DigiCertGlobalRootCA.crt.pem 
 
 
 
-Open your browser and type in the address bar: localhost/yourprojectfoldername to test the website.
+After opening the connection to Local instance MySQL80, open your browser and type in the address bar: localhost/yourprojectfoldername to test the website.
 
 Note: If you are not using XAMPP, which has inbuilt PHP and a PHP server, you will need to install a suitable web server and PHP environment to run the website locally.
 
