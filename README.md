@@ -88,25 +88,26 @@ Patients:
 
 Registering:
 This can only be done by patients.
-Choose your primary doctor.
-You will be redirected from the signup page to the patient registration form.
+After registering, you will be redirected from the signup page to the patient registration form.
+At the bottom of the form, you will choose your primary doctor. There is at least one specialist and one primary doctor at each office location, but the registration form only lists the primary doctors at each location.
 
 Viewing appointments (past, current, future):
 Navigate to home, where you’ll be directed when you sign in.
-Specialist appointment status will be viewable.
-The option to cancel appointments is also present.
 Appointments can be filtered by date.
+Appointment status will be viewable. Note that all appointments, whether with a primary doctor or a specialist, will have an approval status. Specialist appointments that are not yet approved will say "awaiting approval". Appointments with a primary doctor will always say "approved".
+The option to cancel appointments is also present.
 
 Patient Profile Page:
-By navigating to the profile page, personal and emergency info can be easily updated.
-Patients can change their primary doctor or delete their account.
+By navigating to the profile page, personal and emergency contact info can be easily updated.
+You will also see your primary doctor's name and contact information. Note that only your assigned primary doctor has the ability to approve your specialist appointment requests.
+Patients can also change their primary doctor or delete their account. This newly assigned primary doctor may also approve your specialist appointments.
 Clicking one of the aforementioned buttons will direct you to a secondary page where these actions can be carried out.
 
 Scheduling Appointments:
-Navigate to the schedule appointments page to which you are given the option to filter by date, state, and time.
+Navigate to the schedule appointments page where you may schedule by date, state, and time.
 Based on the chosen state, offices are offered to the user to pick from.
-Consequently, choosing an office gives the user an option to choose a doctor from that office.
-Can choose from any primary doctor or specialist (however, specialist appointments require primary doctor approval).
+Choosing an office gives the user an option to choose a doctor from that office.
+You can choose from any primary doctor or specialist (however, specialist appointments require primary doctor approval).
 
 *Note that when choosing an office, in order to populate the doctor dropdown, you will have to toggle once back and forth between the office you want to select and another listed office within the same state. This is a minor bug.
 
@@ -119,8 +120,9 @@ Negative balances can occur if payment is overpaid.
 Doctor: 
 
 Viewing and approving appointments:
-Go to the home page upon login.
-Appointments page and home page will display the same information.
+Note that specialist doctors have the same view as primary doctors, except they do not have an Approval link in the navigation bar. This is because specialists do not have permission to approve specialist appointments.
+Go to the home page upon login. This just displays a welcome message for the doctor user who is signed in.
+The Appointments page displays all of a doctor's appointments with different patients.
 Go to Approval to approve patient specialist appointments.
 
 Updating personal information:
